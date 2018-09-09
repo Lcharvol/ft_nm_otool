@@ -7,7 +7,7 @@ NM_SRC_NAME = nm.c \
 
 OBJ_PATH = .obj/
 
-CPPFLAGS = -Iinclude -I ./libft/include
+CPPFLAGS = -Iincludes -I ./libft/includes
 
 LDFLAGS = -Llibft
 
