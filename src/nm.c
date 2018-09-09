@@ -41,13 +41,21 @@ void						handle_64(char *ptr)
 	}
 }
 
+void						handle_32(char *ptr)
+{
+	ft_printf("handle 32 bits");
+}
+
 void						nm(char *ptr)
 {
 	unsigned int						magic_number;
 
 	magic_number = *(int *) ptr;
-	if(magic_number == MH_MAGIC_64)
+	ft_printf("magic number: %d\n", magic_number);
+	if (magic_number == MH_MAGIC_64)
 		handle_64(ptr);
+	else if (magic_number == MH_MAGIC)
+		handle_32(ptr);
 }
 
 int							main(int ac, char **av)
@@ -56,8 +64,9 @@ int							main(int ac, char **av)
 	char					*ptr;
 	struct stat				buf;
 
-	if (ac != 2)
-		return print_usage();
+	if (ac < 2)
+		if ((fd = open("a.aout", O_RDONLY)) < 0)
+			return open_exit("a.aout");
 	if ((fd = open(av[1], O_RDONLY)) < 0)
 		return open_exit(av[1]);
 	if (fstat(fd, &buf) < 0)
