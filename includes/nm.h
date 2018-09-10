@@ -22,13 +22,24 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
+# define ARCH_64 64
+# define ARCH_32 32
 typedef struct			s_env
 {
-}						t_env;
+	uint32_t				magic_number;
+	char					*file_name;
+	void					*start;
+    int						arch_type;
+    unsigned int            is_swap;
+	struct mach_header_64	*header_64;
+	struct mach_header		*header_32;
+}   						t_env;
 
 int	                    print_usage(void);
 int                     open_exit(char *file_name);
 int                     fstat_exit(void);
 int                     mmap_munmap_exit(char *type);
+void                    handle_header_64(char *ptr, t_env *env);
+void                    handle_header_32(char *ptr, t_env *env);
 
 #endif

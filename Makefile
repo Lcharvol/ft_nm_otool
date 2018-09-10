@@ -1,8 +1,9 @@
 
 SRC_PATH = src/
 
-OTOOL_SRC_NAME = otool.c \
+OTOOL_SRC_NAME = 	otool.c \
 					exit.c \
+					header.c \
 
 NM_SRC_NAME = nm.c \
 				exit.c \
