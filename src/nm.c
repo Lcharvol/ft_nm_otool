@@ -5,13 +5,17 @@ void						print_output(int nsyms, int symoff, int stroff, char *ptr)
 	int						i;
 	char					*stringtable;
 	struct nlist_64			*array;
+	unsigned long			value;
+	unsigned char			type;
 
 	i = 0;
 	array = (void *)ptr + symoff;
 	stringtable = (void *)ptr + stroff;
 	while(i < nsyms)
 	{
-		ft_printf("%s\n", stringtable + array[i].n_un.n_strx);
+		value = (unsigned long)stringtable + array[i].n_value;
+		type = (unsigned char) stringtable + (array[i].n_type & N_TYPE);
+		ft_printf("%u %u %s\n", value, type, stringtable + array[i].n_un.n_strx);
 		i++;
 	}
 }
@@ -51,7 +55,6 @@ void						nm(char *ptr)
 	unsigned int						magic_number;
 
 	magic_number = *(int *) ptr;
-	ft_printf("magic number: %d\n", magic_number);
 	if (magic_number == MH_MAGIC_64)
 		handle_64(ptr);
 	else if (magic_number == MH_MAGIC)
