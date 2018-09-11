@@ -24,9 +24,13 @@
 
 # define ARCH_64 64
 # define ARCH_32 32
+# define NM 0
+# define OTOOL 1
+
 typedef struct			s_env
 {
 	uint32_t				magic_number;
+	int						exec_type;
 	char					*file_name;
 	void					*start;
     int						arch_type;

@@ -15,6 +15,29 @@
 // 	s = (void *)ptr + sizeof(*sc);
 // }
 
+void	handle_text_section(char *ptr, t_env *env)
+{
+	struct segment_command	*sc;
+	int						header_size;
+	uint32_t 					i;
+	uint32_t				ncmds;
+
+	i = 0;
+	header_size = env->arch_type == ARCH_32 ? sizeof(env->header_32) : sizeof(env->header_64);
+	ncmds = env->arch_type == ARCH_32 ? env->header_32->ncmds : env->header_64->ncmds;
+	sc = (void *)ptr + header_size;
+
+	while(i < ncmds)
+	{
+		if(sc->segname == SEG_TEXT)
+		{
+			
+		}
+		i++;
+		sc = (void *)sc + sizeof(sc);
+	}
+}
+
 void	otool(char *ptr, t_env *env)
 {
 	unsigned int						magic_number;
@@ -27,12 +50,14 @@ void	otool(char *ptr, t_env *env)
 		env->arch_type = ARCH_64;
 		env->is_swap = is_swap;
 		handle_header_64(ptr, env);
+		handle_text_section(ptr, env);
 	}
 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{
 		env->arch_type = ARCH_32;
 		env->is_swap = is_swap;
 		handle_header_32(ptr, env);
+		handle_text_section(ptr, env);
 	}
 }
 
@@ -69,6 +94,7 @@ int							main(int ac, char **av)
 	{
 		ft_bzero(&env, sizeof(t_env));
 		env.file_name = av[i];
+		env.exec_type = OTOOL;
 		handle_file(av[i], &env);
 	};
 	return 0;
