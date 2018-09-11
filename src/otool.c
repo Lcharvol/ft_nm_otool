@@ -29,7 +29,7 @@ void	handle_text_section(char *ptr, t_env *env)
 
 	while(i < ncmds)
 	{
-		if(sc->segname == SEG_TEXT)
+		if(ft_strcmp(sc->segname,SEG_TEXT) == 0)
 		{
 			
 		}
