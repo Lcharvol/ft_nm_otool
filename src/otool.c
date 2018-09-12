@@ -15,7 +15,48 @@
 // 	s = (void *)ptr + sizeof(*sc);
 // }
 
-void	handle_text_section(char *ptr, t_env *env)
+void	handle_text_section_64(char *ptr, t_env *env)
+{
+	struct segment_command_64	*sc;
+	struct section_64		*sects;
+	struct mach_header_64	*header;
+	uint32_t 					i;
+	uint32_t				ncmds;
+
+	i = 0;
+	header = (struct mach_header_64 *)ptr;
+	ncmds = header->ncmds;
+	sc = (void *)ptr + sizeof(*header);
+
+	while(i < ncmds)
+	{
+		if(ft_strcmp(sc->segname,SEG_TEXT) == 0)
+		{
+			// ft_printf("FOUND __TEXT\n");
+			// ft_printf("vmsize: %d\n", sc->vmsize);
+			// ft_printf("fileoff : %d\n", sc->fileoff);
+			// ft_printf("nsects: %d\n", sc->nsects);
+			// ft_printf("vmaddr: %p\n", sc->vmaddr);
+			i = 0;
+			sects = (void *)sc + sc->cmdsize - sizeof(struct section_64);
+			ft_printf("section name: %s: \n", sects->sectname);
+			// while(i < sc->nsects)
+			// {
+			// 	ft_printf("SECTION NAME: %s\n", sects->segname);
+			// 	sects = (void *)sects + sects->size;
+			// 	i++;
+			// }
+		};
+		if(ft_strcmp(sc->segname,SECT_TEXT) == 0)
+		{
+			ft_printf("FOUND __text\n");
+		}
+		i++;
+		sc = (void *)sc + sc->cmdsize;
+	}
+}
+
+void	handle_text_section_32(char *ptr, t_env *env)
 {
 	struct segment_command	*sc;
 	int						header_size;
@@ -31,7 +72,16 @@ void	handle_text_section(char *ptr, t_env *env)
 	{
 		if(ft_strcmp(sc->segname,SEG_TEXT) == 0)
 		{
+			ft_printf("FOUND __TEXT\n");
+			ft_printf("vmsize: %d\n", sc->vmsize);
+			ft_printf("fileoff : %d\n", sc->fileoff);
+			ft_printf("nsects: %d\n", sc->nsects);
+			ft_printf("vmaddr: %p\n", sc->vmaddr);
 			
+		};
+		if(ft_strcmp(sc->segname,SECT_TEXT) == 0)
+		{
+			ft_printf("FOUND __text\n");
 		}
 		i++;
 		sc = (void *)sc + sizeof(sc);
@@ -50,14 +100,14 @@ void	otool(char *ptr, t_env *env)
 		env->arch_type = ARCH_64;
 		env->is_swap = is_swap;
 		handle_header_64(ptr, env);
-		handle_text_section(ptr, env);
+		handle_text_section_64(ptr, env);
 	}
 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{
 		env->arch_type = ARCH_32;
 		env->is_swap = is_swap;
 		handle_header_32(ptr, env);
-		handle_text_section(ptr, env);
+		handle_text_section_32(ptr, env);
 	}
 }
 
@@ -73,6 +123,8 @@ static int					handle_file(char *file_name, t_env *env)
 		return fstat_exit();
 	if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
 		return mmap_munmap_exit("mmap");
+	ft_printf("%s:\n", file_name);
+	ft_printf("Contents of (__TEXT,__text) section\n");
 	otool(ptr, env);
 	if (munmap(ptr, buf.st_size) < 0)
 		return mmap_munmap_exit("munmap");
