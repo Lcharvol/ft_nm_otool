@@ -1,117 +1,25 @@
 #include "../includes/nm.h"
 
-void	print_text_section_content_64(uint32_t	offset, char *ptr, uint64_t index, uint64_t size)
+static void					otool(char *ptr, t_env *env)
 {
-	unsigned char	*str;
-	uint64_t				i;
-	uint64_t				length;
+	unsigned int			magic_number;
+	unsigned int			is_swap;
 
-	i = 0;
-	length = (index + 16) <= size ? 16 : (size - index);
-	str = (void *)ptr + offset + index;
-	while(i < length)
-	{
-		if((i == (length - 1)) && ((index + 16) >= size))
-			ft_printf("%2.2x \n", str[i]);
-		else
-			ft_printf("%2.2x ", str[i]);
-		i++;
-	}
-}
-
-void	print_text_section_64(struct section_64	*sects, char *ptr)
-{
-	uint64_t i;
-
-	i = 0;
-	ft_printf("%016lx	", sects->addr);
-	print_text_section_content_64(sects->offset, ptr, i, sects->size);
-	while(i < sects->size)
-	{
-		if (i % 16 == 0 && i != 0)
-		{
-			ft_printf("\n%016lx	", sects->addr + i);
-			print_text_section_content_64(sects->offset, ptr, i, sects->size);
-		}
-		i++;
-	}
-}
-
-void	handle_text_section_64(char *ptr, t_env *env)
-{
-	struct segment_command_64	*sc;
-	struct section_64		*sects;
-	struct mach_header_64	*header;
-	uint32_t 					i;
-	uint32_t				ncmds;
-
-	i = 0;
-	header = (struct mach_header_64 *)ptr;
-	ncmds = header->ncmds;
-	sc = (void *)ptr + sizeof(*header);
-
-	while(i < ncmds)
-	{
-		if(ft_strcmp(sc->segname,SEG_TEXT) == 0)
-		{
-			i = 0;
-			sects = (void *)sc +sizeof(struct segment_command_64);
-			while(i < sc->nsects)
-			{
-				if(ft_strcmp(sects->sectname,SECT_TEXT) == 0)
-					print_text_section_64(sects, ptr);
-				sects = (void *)sects + sizeof(struct section_64);
-				i++;
-			}
-		};
-		i++;
-		sc = (void *)sc + sc->cmdsize;
-	}
-}
-
-void	handle_text_section_32(char *ptr, t_env *env)
-{
-	struct segment_command	*sc;
-	int						header_size;
-	uint32_t 					i;
-	uint32_t				ncmds;
-
-	i = 0;
-	header_size = env->arch_type == ARCH_32 ? sizeof(env->header_32) : sizeof(env->header_64);
-	ncmds = env->arch_type == ARCH_32 ? env->header_32->ncmds : env->header_64->ncmds;
-	sc = (void *)ptr + header_size;
-
-	while(i < ncmds)
-	{
-		if(ft_strcmp(sc->segname,SEG_TEXT) == 0)
-		{
-			
-		};
-		i++;
-		sc = (void *)sc + sizeof(sc);
-	}
-}
-
-void	otool(char *ptr, t_env *env)
-{
-	unsigned int						magic_number;
-	unsigned int						is_swap;
-
-	magic_number = *(uint32_t *) ptr;
+	magic_number = *(uint32_t *)ptr;
 	is_swap = magic_number == MH_CIGAM || magic_number == MH_CIGAM_64;
 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
 		env->arch_type = ARCH_64;
 		env->is_swap = is_swap;
 		handle_header_64(ptr, env);
-		handle_text_section_64(ptr, env);
+		handle_text_section_64(ptr);
 	}
 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{
 		env->arch_type = ARCH_32;
 		env->is_swap = is_swap;
 		handle_header_32(ptr, env);
-		handle_text_section_32(ptr, env);
+		handle_text_section_32(ptr);
 	}
 }
 

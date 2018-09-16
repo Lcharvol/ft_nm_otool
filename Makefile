@@ -4,6 +4,8 @@ SRC_PATH = src/
 OTOOL_SRC_NAME = 	otool.c \
 					exit.c \
 					header.c \
+					section.c \
+					print_text_section.c \
 
 NM_SRC_NAME = nm.c \
 				exit.c \

@@ -45,5 +45,9 @@ int                     fstat_exit(void);
 int                     mmap_munmap_exit(char *type);
 void                    handle_header_64(char *ptr, t_env *env);
 void                    handle_header_32(char *ptr, t_env *env);
+void					handle_text_section_64(char *ptr);
+void					handle_text_section_32(char *ptr);
+void					print_text_section_32(struct section	*sects, char *ptr);
+void					print_text_section_64(struct section_64	*sects, char *ptr);
 
 #endif
