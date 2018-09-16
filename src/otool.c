@@ -12,7 +12,7 @@ void	print_text_section_content_64(uint32_t	offset, char *ptr, uint64_t index, u
 	while(i < length)
 	{
 		if((i == (length - 1)) && ((index + 16) >= size))
-			ft_printf("%2.2x\n", str[i]);
+			ft_printf("%2.2x \n", str[i]);
 		else
 			ft_printf("%2.2x ", str[i]);
 		i++;
@@ -24,7 +24,7 @@ void	print_text_section_64(struct section_64	*sects, char *ptr)
 	uint64_t i;
 
 	i = 0;
-	ft_printf("%016lx        ", sects->addr);
+	ft_printf("%016lx	", sects->addr);
 	print_text_section_content_64(sects->offset, ptr, i, sects->size);
 	while(i < sects->size)
 	{
@@ -126,7 +126,7 @@ static int					handle_file(char *file_name, t_env *env)
 	if (fstat(fd, &buf) < 0)
 		return fstat_exit();
 	if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
-		return mmap_munmap_exit("mmap");
+		return mmap_munmap_exit(file_name);
 	ft_printf("%s:\n", file_name);
 	ft_printf("Contents of (__TEXT,__text) section\n");
 	otool(ptr, env);

@@ -18,8 +18,8 @@ int fstat_exit(void)
 	return (EXIT_FAILURE);
 }
 
-int mmap_munmap_exit(char *type)
+int mmap_munmap_exit(char *file_name)
 {
-    ft_printf("%s: error\n", type);
+    ft_printf("%s: is not an object file\n", file_name);
 	return (EXIT_FAILURE);
 }

@@ -1,0 +1,1 @@
+tests/hell/fichier_vide: is not an object file
