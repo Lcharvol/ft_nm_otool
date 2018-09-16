@@ -1,19 +1,18 @@
 #include "../includes/nm.h"
 
-// void	handle_64(char *ptr)
-// {
-// 	int						i;
-// 	struct mach_header_64	*header;
-// 	struct load_command		*lc;
-// 	struct segment_command_64 *sc;
-// 	struct section				*s;
+void	print_text_section_64(struct section_64	*sects)
+{
+	int i;
 
-// 	i = 0;
-// 	header = (struct mach_header_64 *)ptr;
-// 	lc = (void *)ptr + sizeof(*header);
-// 	sc = (void *)ptr + sizeof(*lc) ;
-// 	s = (void *)ptr + sizeof(*sc);
-// }
+	i = 0;
+	ft_printf("%016lx        ", sects->addr);
+	while(i < sects->size)
+	{
+		if (i % 16 == 0 && i != 0)
+			ft_printf("\n%016lx	", sects->addr + i);
+		i++;
+	}
+}
 
 void	handle_text_section_64(char *ptr, t_env *env)
 {
@@ -32,25 +31,16 @@ void	handle_text_section_64(char *ptr, t_env *env)
 	{
 		if(ft_strcmp(sc->segname,SEG_TEXT) == 0)
 		{
-			// ft_printf("FOUND __TEXT\n");
-			// ft_printf("vmsize: %d\n", sc->vmsize);
-			// ft_printf("fileoff : %d\n", sc->fileoff);
-			// ft_printf("nsects: %d\n", sc->nsects);
-			// ft_printf("vmaddr: %p\n", sc->vmaddr);
 			i = 0;
-			sects = (void *)sc + sc->cmdsize - sizeof(struct section_64);
-			ft_printf("section name: %s: \n", sects->sectname);
-			// while(i < sc->nsects)
-			// {
-			// 	ft_printf("SECTION NAME: %s\n", sects->segname);
-			// 	sects = (void *)sects + sects->size;
-			// 	i++;
-			// }
+			sects = (void *)sc +sizeof(struct segment_command_64);
+			while(i < sc->nsects)
+			{
+				if(ft_strcmp(sects->sectname,SECT_TEXT) == 0)
+					print_text_section_64(sects);
+				sects = (void *)sects + sizeof(struct section_64);
+				i++;
+			}
 		};
-		if(ft_strcmp(sc->segname,SECT_TEXT) == 0)
-		{
-			ft_printf("FOUND __text\n");
-		}
 		i++;
 		sc = (void *)sc + sc->cmdsize;
 	}
@@ -72,17 +62,8 @@ void	handle_text_section_32(char *ptr, t_env *env)
 	{
 		if(ft_strcmp(sc->segname,SEG_TEXT) == 0)
 		{
-			ft_printf("FOUND __TEXT\n");
-			ft_printf("vmsize: %d\n", sc->vmsize);
-			ft_printf("fileoff : %d\n", sc->fileoff);
-			ft_printf("nsects: %d\n", sc->nsects);
-			ft_printf("vmaddr: %p\n", sc->vmaddr);
 			
 		};
-		if(ft_strcmp(sc->segname,SECT_TEXT) == 0)
-		{
-			ft_printf("FOUND __text\n");
-		}
 		i++;
 		sc = (void *)sc + sizeof(sc);
 	}
