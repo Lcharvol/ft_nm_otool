@@ -6,6 +6,7 @@ OTOOL_SRC_NAME = 	otool.c \
 					header.c \
 					section.c \
 					print_text_section.c \
+					utils.c \
 
 NM_SRC_NAME = nm.c \
 				exit.c \

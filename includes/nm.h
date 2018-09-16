@@ -21,9 +21,9 @@
 # include <mach-o/nlist.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include </usr/include/mach-o/fat.h>
 
-# define ARCH_64 64
-# define ARCH_32 32
+
 # define NM 0
 # define OTOOL 1
 
@@ -49,5 +49,6 @@ void					handle_text_section_64(char *ptr);
 void					handle_text_section_32(char *ptr);
 void					print_text_section_32(struct section	*sects, char *ptr);
 void					print_text_section_64(struct section_64	*sects, char *ptr);
+uint64_t				swap_bigendian_littleendian(uint64_t number, size_t sizeoff);
 
 #endif

@@ -1,23 +1,43 @@
 #include "../includes/nm.h"
 
+void						handle_fat_arch(char *ptr)
+{
+	struct fat_header	*header;
+	struct fat_arch		*arch;
+	unsigned long		nfat_arch;
+	unsigned long		arch_size;
+	unsigned long		i;
+
+	i = 0;
+	header = (struct fat_header	*)ptr;
+	nfat_arch = header->magic == FAT_MAGIC ? header->nfat_arch :
+		swap_bigendian_littleendian(header->nfat_arch , sizeof(header->nfat_arch ));
+		ft_printf("nfat_arch: %ld\n", nfat_arch);
+	while(i < nfat_arch)
+	{
+		arch = (void *)header + sizeof(struct fat_header) + (i * sizeof(struct fat_arch));
+		arch_size = header->magic == FAT_MAGIC ? arch->size : swap_bigendian_littleendian(arch->size, sizeof(arch->size));
+		ft_printf("arch_size: %d\n", arch_size);
+		i++;
+	}
+}
+
 static void					otool(char *ptr, t_env *env)
 {
 	unsigned int			magic_number;
-	unsigned int			is_swap;
 
 	magic_number = *(uint32_t *)ptr;
-	is_swap = magic_number == MH_CIGAM || magic_number == MH_CIGAM_64;
-	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
+	if (magic_number == FAT_MAGIC || magic_number == FAT_CIGAM)
+		handle_fat_arch(ptr);
+	else if (magic_number == FAT_CIGAM)
+		return;
+	else if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
-		env->arch_type = ARCH_64;
-		env->is_swap = is_swap;
 		handle_header_64(ptr, env);
 		handle_text_section_64(ptr);
 	}
 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{
-		env->arch_type = ARCH_32;
-		env->is_swap = is_swap;
 		handle_header_32(ptr, env);
 		handle_text_section_32(ptr);
 	}

@@ -1,0 +1,6 @@
+--- file/fat_stackoverflow/otool	2018-09-16 19:09:02.000000000 +0200
++++ file/fat_stackoverflow/ft_otool	2018-09-16 19:09:02.000000000 +0200
+@@ -1 +1,2 @@
+-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump: 'tests/special/fat_stackoverflow': truncated or malformed fat file (align (2^2214592512) too large for cputype (18) cpusubtype (0) (maximum 2^15))
++tests/special/fat_stackoverflow:
++Contents of (__TEXT,__text) section
