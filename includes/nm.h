@@ -24,19 +24,20 @@
 # include </usr/include/mach-o/fat.h>
 
 
-# define NM 0
-# define OTOOL 1
-
+# define NM "NM"
+# define OTOOL "OTOOL"
+# define MY_CPU_TYPE CPU_TYPE_X86_64
 typedef struct			s_env
 {
 	uint32_t				magic_number;
-	int						exec_type;
+	char					*exec_type;
 	char					*file_name;
 	void					*start;
     int						arch_type;
     unsigned int            is_swap;
 	struct mach_header_64	*header_64;
 	struct mach_header		*header_32;
+	struct fat_header		*header_fat;
 }   						t_env;
 
 int	                    print_usage(void);
@@ -45,10 +46,11 @@ int                     fstat_exit(void);
 int                     mmap_munmap_exit(char *type);
 void                    handle_header_64(char *ptr, t_env *env);
 void                    handle_header_32(char *ptr, t_env *env);
-void					handle_text_section_64(char *ptr);
-void					handle_text_section_32(char *ptr);
-void					print_text_section_32(struct section	*sects, char *ptr);
-void					print_text_section_64(struct section_64	*sects, char *ptr);
+void					handle_fat_header(char *ptr, t_env *env);
+void					handle_text_section_64(char *ptr, t_env *env);
+void					handle_text_section_32(char *ptr, t_env *env);
+void					print_text_section_32(struct section	*sects, char *ptr, t_env *env);
+void					print_text_section_64(struct section_64	*sects, char *ptr, t_env *env);
 uint64_t				swap_bigendian_littleendian(uint64_t number, size_t sizeoff);
 
 #endif

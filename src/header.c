@@ -15,3 +15,11 @@ void	handle_header_32(char *ptr, t_env *env)
     header = (struct mach_header *)ptr;
     env->header_32 = header;
 };
+
+void    handle_fat_header(char *ptr, t_env *env)
+{
+    struct fat_header   *header;
+
+    header = (struct fat_header *)ptr;
+    env->header_fat = header;
+}

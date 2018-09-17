@@ -1,0 +1,4 @@
+--- file/lib_archive_medium/otool	2018-09-17 14:36:24.000000000 +0200
++++ file/lib_archive_medium/ft_otool	2018-09-17 14:36:24.000000000 +0200
+@@ -1 +0,0 @@
+-tests/hell/lib_archive_medium: is not an object file
