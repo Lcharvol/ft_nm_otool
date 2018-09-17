@@ -53,6 +53,7 @@ void						handle_fat_arch(char *ptr, t_env *env)
 		arch_offset = header_fat->magic == FAT_MAGIC ? arch->offset : swap_bigendian_littleendian(arch->offset, sizeof(arch->offset));
 		mach_header = (struct mach_header *)((void *)ptr + arch_offset);
 		env->header_32 = mach_header;
+		ft_printf("ON PASSSSSEEEEEEEE\n");
 		handle_text_section_32((void *)ptr + arch_offset, env);
 		i++;
 	}

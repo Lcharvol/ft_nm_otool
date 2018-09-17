@@ -49,6 +49,8 @@ void	print_text_section_64(struct section_64	*sects, char *ptr, t_env *env)
 	print_text_section_content_64(sects->offset, ptr, i, sects->size);
 	while(i < sects->size)
 	{
+
+		
 		if (i % 16 == 0 && i != 0)
 		{
 			ft_printf("\n%016lx	", sects->addr + i);

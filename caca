@@ -1,3 +1,4 @@
+ON PASSSSSEEEEEEEE
 tests/hell/fat_hard:
 Contents of (__TEXT,__text) section
 00000cd3	55 89 e5 56 83 ec 14 e8 00 00 00 00 5e 81 be 2d 
@@ -635,8 +636,4 @@ Contents of (__TEXT,__text) section
 00003453	45 08 8b 40 5c 5d c3 55 89 e5 8b 45 10 8b 4d 08 
 00003463	89 41 5c 5d c3 55 89 e5 8b 45 08 0f be 40 60 5d 
 00003473	c3 
-a.out:
-Contents of (__TEXT,__text) section
-0000000100000f50	55 48 89 e5 48 83 ec 10 48 8d 3d 43 00 00 00 c7 
-0000000100000f60	45 fc 00 00 00 00 8b 35 ac 00 00 00 b0 00 e8 0d 
-0000000100000f70	00 00 00 31 f6 89 45 f8 89 f0 48 83 c4 10 5d c3 
+ON PASSSSSEEEEEEEE

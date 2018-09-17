@@ -59,18 +59,8 @@ void	handle_text_section_32(char *ptr, t_env *env)
 
 	i = 0;
 	header = env->header_32;
-	ft_printf("ON EST LA\n");
-	ft_printf("header->magic: %d\n", header->magic);
 	if(header->magic == MH_CIGAM)
-	{
-		ft_printf("BIG ENDIAN\n");
 		return;
-	}
-	if(header->magic == MH_MAGIC)
-	{
-		ft_printf("LITTLE ENDIAN\n");
-		return;
-	}
 	sc = (void *)ptr + sizeof(*header);
 	while(i < header->ncmds)
 	{
