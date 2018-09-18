@@ -1,7 +1,0 @@
---- file/libcoretls.dylib/otool	2018-09-18 14:50:58.000000000 +0200
-+++ file/libcoretls.dylib/ft_otool	2018-09-18 14:50:58.000000000 +0200
-@@ -1,2 +1,3 @@
- tests/hell/libcoretls.dylib:
- Contents of (__TEXT,__text) section
-+0000000000000fc0	
-\ No newline at end of file

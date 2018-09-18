@@ -1,7 +1,0 @@
---- file/object_easy/otool	2018-09-18 14:54:45.000000000 +0200
-+++ file/object_easy/ft_otool	2018-09-18 14:54:45.000000000 +0200
-@@ -1,2 +1,3 @@
- tests/hell/object_easy:
- Contents of (__TEXT,__text) section
-+0000000000000000	
-\ No newline at end of file
