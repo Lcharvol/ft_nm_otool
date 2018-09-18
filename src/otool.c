@@ -7,7 +7,7 @@ void					handle_ran_lib()
 
 void					handle_ran_lib_64()
 {
-	ft_printf("HANDLE RAN LIB\n");
+	ft_printf("HANDLE RAN LIB_64\n");
 }
 
 void					handle_sym_tab(char *ptr, t_env *env)
