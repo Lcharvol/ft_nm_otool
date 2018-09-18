@@ -12,12 +12,23 @@
 
 #include "../includes/nm.h"
 
-void				handle_ran_lib(void)
+void				handle_ran_lib(t_env *env, char *ptr, uint32_t size, struct ranlib	*lib)
 {
-	ft_printf("HANDLE RAN LIB\n");
+	uint32_t		i;
+	struct ar_hdr	*header;
+	
+	i = -1;
+	size /= sizeof(struct ranlib);
+	ft_printf("size: %d\n", size);
+	while(++i < size)
+	{
+		header = (void*)ptr + lib[i].ran_off;
+		ft_printf("hedaer->size: %s\n",header);
+		// otool((void *)header, env);
+	};
 }
 
-void				handle_ran_lib_64(void)
+void				handle_ran_lib_64(t_env *env, char *ptr, uint64_t size)
 {
 	ft_printf("HANDLE RAN LIB_64\n");
 }
@@ -27,16 +38,17 @@ void				handle_sym_tab(char *ptr, t_env *env)
 	void			*new_ptr;
 	uint32_t		*size;
 	struct ar_hdr	*header;
+	struct ranlib	*lib;
 
-	header = env->header_sym;
-	new_ptr = (void *)header + sizeof(*header);
-	size = ((void*)new_ptr + 20);
+	header = (void *)ptr + SARMAG;
+	new_ptr = (void *)header + sizeof(* header);
+	size = (uint32_t *)((void *)new_ptr + 20);
 	if (ft_strcmp(new_ptr, SYMDEF) == 0 ||
 			ft_strcmp(new_ptr, SYMDEF_SORTED) == 0)
-		handle_ran_lib();
+		handle_ran_lib(env, ptr, size[0], (void *)new_ptr + 24);
 	else if (ft_strcmp(new_ptr, SYMDEF_64) == 0 ||
 			ft_strcmp(new_ptr, SYMDEF_64_SORTED) == 0)
-		handle_ran_lib_64();
+		handle_ran_lib_64(env, ptr, size[0] /= sizeof(struct ranlib_64));
 }
 
 void				otool(char *ptr, t_env *env)
