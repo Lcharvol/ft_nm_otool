@@ -19,11 +19,11 @@ void				handle_ran_lib(t_env *env, char *ptr, uint32_t size, struct ranlib	*lib)
 	
 	i = -1;
 	size /= sizeof(struct ranlib);
-	ft_printf("size: %d\n", size);
+	ft_printf("Archive : %s\n", env->file_name);
 	while(++i < size)
 	{
 		header = (void*)ptr + lib[i].ran_off;
-		ft_printf("hedaer->size: %s\n",header);
+		otool((void*)header + sizeof(*header) + ft_atoi(&header->ar_name[3]), env);
 		// otool((void *)header, env);
 	};
 }

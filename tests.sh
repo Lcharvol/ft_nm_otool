@@ -1,5 +1,5 @@
 # export TEST_FILE="tests/hell/appsleepd"
-export TEST_FILE1="tests/hell/fat_hard"
+export TEST_FILE1="tests/hell/libft.a"
 
 export TEST_FILE2="a.out"
 
