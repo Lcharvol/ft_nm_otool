@@ -23,6 +23,8 @@
 # include <stdlib.h>
 # include </usr/include/mach-o/fat.h>
 # include </usr/include/mach/machine.h>
+# include </usr/include/mach-o/ranlib.h>
+# include </usr/include/ar.h>
 
 
 # define NM "NM"
@@ -39,6 +41,7 @@ typedef struct			s_env
 	struct mach_header_64	*header_64;
 	struct mach_header		*header_32;
 	struct fat_header		*header_fat;
+	struct ar_hdr			*header_sym;
 }   						t_env;
 
 int	                    print_usage(void);
@@ -54,6 +57,8 @@ void					print_text_section_32(struct section	*sects, char *ptr, t_env *env);
 void					print_text_section_64(struct section_64	*sects, char *ptr, t_env *env);
 uint64_t				swap_bigendian_littleendian(uint64_t number, size_t sizeoff);
 void					handle_fat_arch(char *ptr, t_env *env);
+void					handle_sym_tab_header(char *ptr, t_env *env);
 void					otool(char *ptr, t_env *env);
+int						is_sym_tab(char *ptr);
 
 #endif

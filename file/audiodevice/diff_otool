@@ -1,6 +1,6 @@
---- file/audiodevice/otool	2018-09-17 14:36:19.000000000 +0200
-+++ file/audiodevice/ft_otool	2018-09-17 14:36:19.000000000 +0200
-@@ -1,1034 +1,4 @@
+--- file/audiodevice/otool	2018-09-18 14:48:30.000000000 +0200
++++ file/audiodevice/ft_otool	2018-09-18 14:48:30.000000000 +0200
+@@ -1,1034 +0,0 @@
 -tests/hell/audiodevice (architecture ppc):
 -Contents of (__TEXT,__text) section
 -00001ff0	7c3a0b78 3821fffc 54210034 38000000 
@@ -1035,7 +1035,3 @@
 -0000442c	24 e8 6d 2c 00 00 85 c0 89 c3 0f 85 d9 fe ff ff 
 -0000443c	83 c4 3c 5b 5e 5f c9 c3 55 89 e5 8b 45 08 0f b6 
 -0000444c	40 04 c9 c3 
-+cputype: 301989888
-+MY_CPU_TYPE: 16777223
-+cputype: 117440512
-+MY_CPU_TYPE: 16777223

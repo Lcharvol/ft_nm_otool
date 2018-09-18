@@ -1,4 +1,6 @@
-cputype: 117440513
-MY_CPU_TYPE: 16777223
-cputype: 117440513
-MY_CPU_TYPE: 16777223
+tests/hell/cfprefsd:
+Contents of (__TEXT,__text) section
+0000000100000f44	55 48 89 e5 5d e9 00 00 00 00 
+tests/hell/cfprefsd:
+Contents of (__TEXT,__text) section
+0000000100000f44	55 48 89 e5 5d e9 00 00 00 00 

@@ -1,8 +1,4 @@
---- file/audiodevice_corupted/otool	2018-09-17 14:36:19.000000000 +0200
-+++ file/audiodevice_corupted/ft_otool	2018-09-17 14:36:19.000000000 +0200
-@@ -1 +1,4 @@
+--- file/audiodevice_corupted/otool	2018-09-18 14:48:30.000000000 +0200
++++ file/audiodevice_corupted/ft_otool	2018-09-18 14:48:30.000000000 +0200
+@@ -1 +0,0 @@
 -/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump: 'tests/hell/audiodevice_corupted': truncated or malformed fat file (offset plus size of cputype (18) cpusubtype (0) extends past the end of the file)
-+cputype: 301989888
-+MY_CPU_TYPE: 16777223
-+cputype: 117440512
-+MY_CPU_TYPE: 16777223

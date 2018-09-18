@@ -50,20 +50,24 @@ void	handle_text_section_64(char *ptr, t_env *env)
 	}
 }
 
-void	handle_text_section_32(char *ptr, t_env *env)
+void						handle_text_section_32(char *ptr, t_env *env)
 {
 	
 	struct segment_command	*sc;
-	struct mach_header	*header;
-	uint32_t 					i;
+	struct mach_header		*header;
+	uint32_t				i;
+	uint32_t				ncmds;
 
 	i = 0;
 	header = env->header_32;
 	if(header->magic == MH_CIGAM)
 		return;
 	sc = (void *)ptr + sizeof(*header);
-	while(i < header->ncmds)
+	ncmds = header->magic == MH_CIGAM ? header->ncmds : swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
+	ft_printf("ncmds: %d\n", ncmds);
+	while(i < ncmds)
 	{
+		ft_printf("CA PSSESFEFWEF\n");
 		if(sc->cmd == LC_SEGMENT)
 			handle_segment_32(ptr, sc, env);
 		i++;

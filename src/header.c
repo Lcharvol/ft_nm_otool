@@ -23,3 +23,11 @@ void    handle_fat_header(char *ptr, t_env *env)
     header = (struct fat_header *)ptr;
     env->header_fat = header;
 }
+
+void    handle_sym_tab_header(char *ptr, t_env *env)
+{
+    struct ar_hdr       *header;
+    
+    header = (void *)ptr + SARMAG;
+    env->header_sym = header;
+}

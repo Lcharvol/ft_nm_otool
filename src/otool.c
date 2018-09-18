@@ -1,5 +1,30 @@
 #include "../includes/nm.h"
 
+void					handle_ran_lib()
+{
+	ft_printf("HANDLE RAN LIB\n");
+}
+
+void					handle_ran_lib_64()
+{
+	ft_printf("HANDLE RAN LIB\n");
+}
+
+void					handle_sym_tab(char *ptr, t_env *env)
+{
+	void			*new_ptr;
+	uint32_t		*size;
+	struct ar_hdr	*header;
+
+	header = env->header_sym;
+	new_ptr = (void *)header + sizeof(*header);
+	size = ((void*)new_ptr + 20);
+	if (ft_strcmp(new_ptr, SYMDEF) == 0 || ft_strcmp(new_ptr, SYMDEF_SORTED) == 0)
+		handle_ran_lib();
+	else if (ft_strcmp(new_ptr, SYMDEF_64) == 0 || ft_strcmp(new_ptr, SYMDEF_64_SORTED) == 0)
+		handle_ran_lib_64();
+}
+
 void					otool(char *ptr, t_env *env)
 {
 	unsigned int			magic_number;
@@ -20,6 +45,11 @@ void					otool(char *ptr, t_env *env)
 	{
 		handle_header_32(ptr, env);
 		handle_text_section_32(ptr, env);
+	}
+	else if (is_sym_tab(ptr) == 0)
+	{
+		handle_sym_tab_header(ptr, env);
+		handle_sym_tab(ptr, env);
 	}
 }
 

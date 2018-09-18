@@ -22,3 +22,14 @@ uint64_t	swap_bigendian_littleendian(uint64_t number, size_t sizeoff)
 	}
 	return (nb_swapped);
 }
+
+int						is_sym_tab(char *ptr)
+{
+	int	i;
+
+	i = -1;
+	while(++i < SARMAG)
+		if(ARMAG[i] != ptr[i])
+			return (-1);
+	return (0);
+}
