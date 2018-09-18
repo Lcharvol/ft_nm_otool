@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include </usr/include/mach-o/fat.h>
+# include </usr/include/mach/machine.h>
 
 
 # define NM "NM"
@@ -52,5 +53,7 @@ void					handle_text_section_32(char *ptr, t_env *env);
 void					print_text_section_32(struct section	*sects, char *ptr, t_env *env);
 void					print_text_section_64(struct section_64	*sects, char *ptr, t_env *env);
 uint64_t				swap_bigendian_littleendian(uint64_t number, size_t sizeoff);
+void					handle_fat_arch(char *ptr, t_env *env);
+void					otool(char *ptr, t_env *env);
 
 #endif
