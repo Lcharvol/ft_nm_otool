@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lcharvol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/18 20:26:50 by lcharvol          #+#    #+#             */
+/*   Updated: 2018/09/18 20:26:57 by lcharvol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/nm.h"
 
-uint64_t	swap_bigendian_littleendian(uint64_t number, size_t sizeoff)
+uint64_t		swap_bigendian_littleendian(uint64_t number, size_t sizeoff)
 {
 	uint64_t	nb_swapped;
 	int			i;
@@ -23,13 +35,13 @@ uint64_t	swap_bigendian_littleendian(uint64_t number, size_t sizeoff)
 	return (nb_swapped);
 }
 
-int						is_sym_tab(char *ptr)
+int				is_sym_tab(char *ptr)
 {
-	int	i;
+	int			i;
 
 	i = -1;
-	while(++i < SARMAG)
-		if(ARMAG[i] != ptr[i])
+	while (++i < SARMAG)
+		if (ARMAG[i] != ptr[i])
 			return (-1);
 	return (0);
 }

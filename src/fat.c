@@ -10,7 +10,9 @@ void						handle_fat_arch_content(t_env *env, unsigned long i, struct fat_header
 	cputype = header_fat->magic == FAT_MAGIC ? arch->cputype : swap_bigendian_littleendian(arch->cputype, sizeof(arch->cputype));
 	arch_offset = header_fat->magic == FAT_MAGIC ? arch->offset : swap_bigendian_littleendian(arch->offset, sizeof(arch->offset));
 	env->header_32 = (struct mach_header *)((void *)ptr + arch_offset);
-	if(cputype == CPU_TYPE_X86_64)
+	ft_printf("cputype: %d\n", cputype);
+	ft_printf("MY_CPU_TYPE: %d\n", MY_CPU_TYPE);
+	if(cputype == MY_CPU_TYPE)
 		otool((void *)ptr + arch_offset, env);
 }
 
