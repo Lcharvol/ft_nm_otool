@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump: 'tests/hell/python_returns': truncated or malformed object (bad string table index: 125829568 past the end of string table, for symbol at index 1)
+tests/hell/python_returns:

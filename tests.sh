@@ -1,5 +1,5 @@
 # export TEST_FILE="tests/hell/appsleepd"
-export TEST_FILE1="tests/hell/audiodevice"
+export TEST_FILE1="file/the_revengeance_of_python/otool"
 
 export TEST_FILE2="a.out"
 
