@@ -1,5 +1,12 @@
 #include "../includes/nm.h"
 
+int						is_corrupted(struct segment_command	*sc, t_env *env, char *ptr)
+{
+	if((sc->fileoff + sc->vmsize) > env->file_size)
+		return (1);
+	return (0);
+}
+
 void	handle_segment_64(char *ptr, struct segment_command_64	*sc, t_env *env)
 {
 	uint32_t 					i;
@@ -26,7 +33,11 @@ void	handle_segment_32(char *ptr, struct segment_command	*sc, t_env *env)
 	while(i < sc->nsects)
 	{
 		if(ft_strcmp(sects->sectname,SECT_TEXT) == 0)
+		{
+			if(env->corupted == 1)
+				return corrupted_exit(env->file_name);
 			print_text_section_32(sects, ptr, env);
+		}
 		sects = (void *)sects + sizeof(struct section_64);
 		i++;
 	}
@@ -62,14 +73,18 @@ void						handle_text_section_32(char *ptr, t_env *env)
 
 	i = 0;
 	header = env->header_32;
-	if(header->magic == MH_CIGAM)
-		return;
 	sc = (void *)ptr + sizeof(*header);
 	ncmds = header->magic == MH_MAGIC ? header->ncmds : swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
 	while(i < ncmds)
 	{
 		if(sc->cmd == LC_SEGMENT)
+		{
+			if(is_corrupted(sc, env, ptr) == 1)
+				env->corupted = 1;
+			else
+				env->corupted = 0;
 			handle_segment_32(ptr, sc, env);
+		}
 		i++;
 		sc = (void *)sc + sc->cmdsize;
 	}

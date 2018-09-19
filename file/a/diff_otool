@@ -1,5 +1,5 @@
---- file/a/otool	2018-09-19 15:35:34.000000000 +0200
-+++ file/a/ft_otool	2018-09-19 15:35:34.000000000 +0200
+--- file/a/otool	2018-09-19 17:51:50.000000000 +0200
++++ file/a/ft_otool	2018-09-19 17:51:50.000000000 +0200
 @@ -1 +1,354 @@
 -/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump: 'tests/hell/a': truncated or malformed object (load command 2 fileoff field plus filesize field in LC_SEGMENT_64 extends past the end of the file)
 +tests/hell/a:

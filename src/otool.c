@@ -55,6 +55,7 @@ static int			handle_file(char *file_name, t_env *env)
 	if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0))
 			== MAP_FAILED)
 		return (mmap_munmap_exit(file_name));
+	env->file_size = buf.st_size;
 	otool(ptr, env);
 	if (munmap(ptr, buf.st_size) < 0)
 		return (mmap_munmap_exit("munmap"));

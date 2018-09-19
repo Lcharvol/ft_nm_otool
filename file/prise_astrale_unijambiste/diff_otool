@@ -1,4 +1,0 @@
---- file/prise_astrale_unijambiste/otool	2018-09-19 15:39:27.000000000 +0200
-+++ file/prise_astrale_unijambiste/ft_otool	2018-09-19 15:39:27.000000000 +0200
-@@ -1 +0,0 @@
--/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump: 'tests/hell/prise_astrale_unijambiste': truncated or malformed object (load command 1 extends past the end all load commands in the file)

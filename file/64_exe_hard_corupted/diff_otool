@@ -1,5 +1,5 @@
---- file/64_exe_hard_corupted/otool	2018-09-19 15:35:30.000000000 +0200
-+++ file/64_exe_hard_corupted/ft_otool	2018-09-19 15:35:30.000000000 +0200
+--- file/64_exe_hard_corupted/otool	2018-09-19 17:51:46.000000000 +0200
++++ file/64_exe_hard_corupted/ft_otool	2018-09-19 17:51:46.000000000 +0200
 @@ -1 +1,403 @@
 -/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump: 'tests/hell/64_exe_hard_corupted': truncated or malformed object (offset field plus size field of section 0 in LC_SEGMENT_64 command 1 extends past the end of the file)
 +tests/hell/64_exe_hard_corupted:

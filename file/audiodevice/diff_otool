@@ -1,5 +1,5 @@
---- file/audiodevice/otool	2018-09-19 15:35:34.000000000 +0200
-+++ file/audiodevice/ft_otool	2018-09-19 15:35:34.000000000 +0200
+--- file/audiodevice/otool	2018-09-19 17:51:50.000000000 +0200
++++ file/audiodevice/ft_otool	2018-09-19 17:51:50.000000000 +0200
 @@ -1,1034 +0,0 @@
 -tests/hell/audiodevice (architecture ppc):
 -Contents of (__TEXT,__text) section
