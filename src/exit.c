@@ -42,11 +42,11 @@ int not_an_object_exit(char *file_name)
 	return (EXIT_FAILURE);
 }
 
-void	corrupted_exit(char *file_name)
+void	corrupted_exit(char *file_name, char *seg_type)
 {
 	ft_printf("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD");
 	ft_printf("efault.xctoolchain/usr/bin/objdump: '%s':", file_name);
 	ft_printf(" truncated or malformed object (offset field plus size");
-	ft_printf(" field of section 0 in LC_SEGMENT command 1 ");
+	ft_printf(" field of section 0 in %s command 1 ", seg_type);
 	ft_printf("extends past the end of the file)\n");
 }
