@@ -48,9 +48,8 @@ typedef struct			s_env
 int	                    print_usage(void);
 int                     open_exit(char *file_name);
 int                     fstat_exit(void);
-void					corrupted_exit(char *file_name, char *seg_type);
+void					corrupted_exit(char *file_name);
 int						not_an_object_exit(char *file_name);
-int                     mmap_munmap_exit(char *type);
 void                    handle_header_64(char *ptr, t_env *env);
 void                    handle_header_32(char *ptr, t_env *env);
 void					handle_fat_header(char *ptr, t_env *env);

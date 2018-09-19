@@ -6,7 +6,7 @@
 /*   By: lcharvol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 20:33:55 by lcharvol          #+#    #+#             */
-/*   Updated: 2018/09/18 20:37:15 by lcharvol         ###   ########.fr       */
+/*   Updated: 2018/09/19 21:46:12 by lcharvol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ void				otool(char *ptr, t_env *env)
 	magic_number = *(uint32_t *)ptr;
 	env->magic_number = magic_number;
 	if (magic_number == FAT_MAGIC || magic_number == FAT_CIGAM)
-	{
-		handle_fat_header(ptr, env);
 		handle_fat_arch(ptr, env);
-	}
 	else if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
 		handle_header_64(ptr, env);
@@ -54,11 +51,11 @@ static int			handle_file(char *file_name, t_env *env)
 		return (fstat_exit());
 	if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0))
 			== MAP_FAILED)
-		return (mmap_munmap_exit(file_name));
+		return (not_an_object_exit(file_name));
 	env->file_size = buf.st_size;
 	otool(ptr, env);
 	if (munmap(ptr, buf.st_size) < 0)
-		return (mmap_munmap_exit("munmap"));
+		return (not_an_object_exit(file_name));
 	return (0);
 }
 
