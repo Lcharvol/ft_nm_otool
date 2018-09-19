@@ -9,6 +9,7 @@ OTOOL_SRC_NAME = 	otool.c \
 					utils.c \
 					fat.c \
 					sym_tab.c \
+					corupted.c \
 
 NM_SRC_NAME = nm.c \
 				exit.c \

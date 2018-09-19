@@ -64,5 +64,7 @@ void					handle_sym_tab_header(char *ptr, t_env *env);
 void					otool(char *ptr, t_env *env);
 int						is_sym_tab(char *ptr);
 void					handle_sym_tab(char *ptr, t_env *env);
+int						is_corrupted_64(struct segment_command_64	*sc, t_env *env);
+int						is_corrupted(struct segment_command	*sc, t_env *env);
 
 #endif
