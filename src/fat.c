@@ -1,6 +1,6 @@
 #include "../includes/nm.h"
 
-void						handle_fat_arch_content(t_env *env, unsigned long i, struct fat_header	*header_fat, char *ptr)
+static int						handle_my_cpu(t_env *env, unsigned long i, struct fat_header	*header_fat, char *ptr)
 {
 	struct fat_arch		*arch;
 	unsigned long		arch_offset;
@@ -10,10 +10,12 @@ void						handle_fat_arch_content(t_env *env, unsigned long i, struct fat_header
 	cputype = header_fat->magic == FAT_MAGIC ? arch->cputype : swap_bigendian_littleendian(arch->cputype, sizeof(arch->cputype));
 	arch_offset = header_fat->magic == FAT_MAGIC ? arch->offset : swap_bigendian_littleendian(arch->offset, sizeof(arch->offset));
 	env->header_32 = (struct mach_header *)((void *)ptr + arch_offset);
-	ft_printf("cputype: %d\n", cputype);
-	ft_printf("MY_CPU_TYPE: %d\n", MY_CPU_TYPE);
 	if(cputype == MY_CPU_TYPE)
+	{
 		otool((void *)ptr + arch_offset, env);
+		return (1);
+	}
+	return (0);
 }
 
 void						handle_fat_arch(char *ptr, t_env *env)
@@ -27,5 +29,9 @@ void						handle_fat_arch(char *ptr, t_env *env)
 	nfat_arch = header_fat->magic == FAT_MAGIC ? header_fat->nfat_arch :
 		swap_bigendian_littleendian(header_fat->nfat_arch , sizeof(header_fat->nfat_arch ));
 	while(++i < nfat_arch)
-		handle_fat_arch_content(env, i, header_fat, ptr);
+	{
+		if(handle_my_cpu(env, i, header_fat, ptr) == 1)
+			return;
+	}
+	i = -1;
 }

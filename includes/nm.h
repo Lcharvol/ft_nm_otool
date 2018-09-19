@@ -38,6 +38,7 @@ typedef struct			s_env
 	void					*start;
     int						arch_type;
     unsigned int            is_swap;
+	char					*ar_name;
 	struct mach_header_64	*header_64;
 	struct mach_header		*header_32;
 	struct fat_header		*header_fat;
@@ -47,6 +48,7 @@ typedef struct			s_env
 int	                    print_usage(void);
 int                     open_exit(char *file_name);
 int                     fstat_exit(void);
+int						not_an_object_exit(char *file_name);
 int                     mmap_munmap_exit(char *type);
 void                    handle_header_64(char *ptr, t_env *env);
 void                    handle_header_32(char *ptr, t_env *env);
@@ -60,5 +62,6 @@ void					handle_fat_arch(char *ptr, t_env *env);
 void					handle_sym_tab_header(char *ptr, t_env *env);
 void					otool(char *ptr, t_env *env);
 int						is_sym_tab(char *ptr);
+void					handle_sym_tab(char *ptr, t_env *env);
 
 #endif

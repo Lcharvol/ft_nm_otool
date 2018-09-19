@@ -43,7 +43,10 @@ void	print_text_section_64(struct section_64	*sects, char *ptr, t_env *env)
 	uint64_t i;
 
 	i = 0;
-	ft_printf("%s:\n", env->file_name);
+	if (ft_strlen(env->ar_name) > 0)
+		ft_printf("%s(%s):\n", env->file_name, env->ar_name);
+	else
+		ft_printf("%s:\n", env->file_name);
 	ft_printf("Contents of (__TEXT,__text) section\n");
 	ft_printf("%016lx	", sects->addr);
 	print_text_section_content_64(sects->offset, ptr, i, sects->size);
@@ -65,7 +68,10 @@ void	print_text_section_32(struct section	*sects, char *ptr, t_env *env)
 	uint32_t i;
 
 	i = 0;
-	ft_printf("%s:\n", env->file_name);
+	if (ft_strlen(env->ar_name) > 0)
+		ft_printf("%s(%s):\n", env->file_name, env->ar_name);
+	else
+		ft_printf("%s:\n", env->file_name);
 	ft_printf("Contents of (__TEXT,__text) section\n");
 	ft_printf("%08lx	", sects->addr);
 	print_text_section_content_32(sects->offset, ptr, i, sects->size);
