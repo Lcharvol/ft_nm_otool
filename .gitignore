@@ -1,0 +1,6 @@
+.obj
+.vscode
+/tests
+tests.sh
+test_jjourdai.sh
+.DS_Store
