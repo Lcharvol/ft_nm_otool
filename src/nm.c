@@ -3,8 +3,10 @@
 unsigned char				get_type(unsigned char ptr)
 {
 	
-	// ft_printf("type: %d\n", ptr);
-	if(ptr == 191)
+	ft_printf("type: %d\n", ptr);
+	if(ptr == N_UNDF)
+		return 'U';
+	else if(ptr == N_UNDF)
 		return 'U';
 	return ' ';
 };
@@ -23,13 +25,13 @@ void						print_output(int nsyms, int symoff, int stroff, char *ptr)
 	while(i < nsyms)
 	{
 		value = (unsigned long)stringtable + array[i].n_value;
-		type = get_type((unsigned char)(stringtable + array[i].n_type));
-		ft_printf("%d %c %s\n", value, type, stringtable + array[i].n_un.n_strx);
+		type = (unsigned char)(stringtable + array[i].n_type);
+		ft_printf("%p %c %s\n", value, type, stringtable + array[i].n_un.n_strx);
 		i++;
 	}
 }
 
-void						handle_64(char *ptr)
+void						handle_64(char *ptr, t_env *env)
 {
 	int						ncmds;
 	int						i;
@@ -38,8 +40,9 @@ void						handle_64(char *ptr)
 	struct symtab_command	*sym;
 
 	i = 0;
-	header = (struct mach_header_64 *)ptr;
-	ncmds = header->ncmds;
+	header = env->header_64;
+	ncmds = header->magic == MH_MAGIC_64 ? header->ncmds :
+		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
 	lc = (void *)ptr + sizeof(*header);
 	while(i < ncmds)
 	{
@@ -65,7 +68,7 @@ void						nm(char *ptr, t_env *env)
 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
 		handle_header_64(ptr, env);
-		handle_64(ptr);
+		handle_64(ptr, env);
 	}
 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{

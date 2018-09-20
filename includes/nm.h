@@ -30,6 +30,14 @@
 # define NM "NM"
 # define OTOOL "OTOOL"
 # define MY_CPU_TYPE CPU_TYPE_X86_64
+#define NM_FLAG_A(x)		(x & 0b1)
+#define NM_FLAG_G(x)		(x & 0b10)
+#define NM_FLAG_P(x)		(x & 0b100)
+#define NM_FLAG_U(x)		(x & 0b1000)
+#define NM_FLAG_UU(x)		(x & 0b10000)
+#define NM_FLAG_J(x)		(x & 0b100000)
+#define NM_FLAG_R(x)		(x & 0b1000000)
+#define NM_FLAG_N(x)		(x & 0b10000000)
 typedef struct			s_env
 {
 	uint32_t				magic_number;
