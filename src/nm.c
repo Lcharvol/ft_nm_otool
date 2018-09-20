@@ -24,7 +24,7 @@ void						print_output(int nsyms, int symoff, int stroff, char *ptr)
 	{
 		value = (unsigned long)stringtable + array[i].n_value;
 		type = get_type((unsigned char)(stringtable + array[i].n_type));
-		ft_printf("%u %c %s\n", value, type, stringtable + array[i].n_un.n_strx);
+		ft_printf("%d %c %s\n", value, type, stringtable + array[i].n_un.n_strx);
 		i++;
 	}
 }
@@ -54,43 +54,53 @@ void						handle_64(char *ptr)
 	}
 }
 
-void						handle_32(char *ptr)
+void						nm(char *ptr, t_env *env)
 {
-	ft_printf("handle 32 bits");
-	ptr++;
-}
+	unsigned int	magic_number;
 
-void						nm(char *ptr)
-{
-	unsigned int						magic_number;
-
-	magic_number = *(uint32_t *) ptr;
+	magic_number = *(uint32_t *)ptr;
+	env->magic_number = magic_number;
+	// if (magic_number == FAT_MAGIC || magic_number == FAT_CIGAM)
+	// 	handle_fat_arch(ptr, env);
 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
-		// handle_header_64(ptr);
+		handle_header_64(ptr, env);
+		handle_64(ptr);
 	}
 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{
-		// handle_header_32(ptr);
+		handle_header_32(ptr, env);
+		ft_printf("32\n");
+		// handle_text_section_32(ptr, env);
 	}
+	else if (is_sym_tab(ptr) == 0)
+	{
+		handle_sym_tab_header(ptr, env);
+		ft_printf("sym tab\n");
+		// handle_sym_tab(ptr, env);
+	}
+	else
+		not_an_object_exit(env->file_name);
 }
 
-static void					handle_file(char *file_name, t_env *env)
+static int					handle_file(char *file_name, t_env *env)
 {
-	int						fd;
-	char					*ptr;
-	struct stat				buf;
+	int				fd;
+	char			*ptr;
+	struct stat		buf;
 
-	ft_printf("fileName: %s\n", file_name);
-	// if ((fd = open(file_name, O_RDONLY)) < 0)
-	// 	return open_exit(file_name);
-	// if (fstat(fd, &buf) < 0)
-	// 	return fstat_exit();
-	// if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
-	// 	mmap_munmap_exit("mmap");
-	// nm(ptr);
-	// if (munmap(ptr, buf.st_size) < 0)
-	// 	mmap_munmap_exit("munmap");
+	if ((fd = open(file_name, O_RDONLY)) < 0)
+		return (open_exit(file_name));
+	if (fstat(fd, &buf) < 0)
+		return (fstat_exit());
+	if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0))
+			== MAP_FAILED)
+		return (not_an_object_exit(file_name));
+	env->file_size = buf.st_size;
+	nm(ptr, env);
+	if (munmap(ptr, buf.st_size) < 0)
+		return (not_an_object_exit(file_name));
+	return (0);
 };
 
 int							main(int ac, char **av)
