@@ -68,6 +68,9 @@ void							handle_text_section_64(char *ptr, t_env *env)
 		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
 	while (i < ncmds)
 	{
+		if((((void *)sc + sc->cmdsize) > ((void *)ptr + header->sizeofcmds))
+			& (i < (ncmds - 2)))
+			return (corrupted_exit(env->file_name));
 		if (sc->cmd == LC_SEGMENT_64)
 		{
 			if (is_corrupted_64(sc, env) == 1)
@@ -95,6 +98,9 @@ void							handle_text_section_32(char *ptr, t_env *env)
 		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
 	while (i < ncmds)
 	{
+		if((((void *)sc + sc->cmdsize) > ((void *)ptr + header->sizeofcmds))
+			& (i < (ncmds - 2)))
+			return (corrupted_exit(env->file_name));
 		if (sc->cmd == LC_SEGMENT)
 		{
 			if (is_corrupted(sc, env) == 1)

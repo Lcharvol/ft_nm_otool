@@ -26,6 +26,8 @@ static void				handle_ran_lib(t_env *env, char *ptr, uint32_t size,
 	while (++i < size)
 	{
 		header = (void*)ptr + lib[i].ran_off;
+		if(((lib->ran_off + ft_atoi(&header->ar_size[0])) > env->file_size) & (i < (size - 1)))
+			return(corrupted_exit(env->file_name));
 		env->ar_name = (void*)header + sizeof(*header);
 		tmp_ptr = (void*)header + sizeof(*header) +
 			ft_atoi(&header->ar_name[3]);
@@ -49,6 +51,8 @@ static void				handle_ran_lib_64(t_env *env, char *ptr, uint64_t size,
 	while (++i < size)
 	{
 		header = (void*)ptr + lib[i].ran_off;
+		if(((lib->ran_off + ft_atoi(&header->ar_size[0])) > env->file_size) & (i < (size - 1)))
+			return(corrupted_exit(env->file_name));
 		env->ar_name = (void*)header + sizeof(*header);
 		tmp_ptr = (void*)header + sizeof(*header) +
 			ft_atoi(&header->ar_name[3]);
