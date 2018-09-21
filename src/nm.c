@@ -16,19 +16,12 @@ void						print_output(int nsyms, int symoff, int stroff, char *ptr)
 	int						i;
 	char					*stringtable;
 	struct nlist_64			*array;
-	unsigned long			value;
-	unsigned char			type;
 
-	i = 0;
+	i = -1;
 	array = (void *)ptr + symoff;
 	stringtable = (void *)ptr + stroff;
-	while(i < nsyms)
-	{
-		value = (unsigned long)stringtable + array[i].n_value;
-		type = (unsigned char)(stringtable + array[i].n_type);
-		ft_printf("%p %c %s\n", value, type, stringtable + array[i].n_un.n_strx);
-		i++;
-	}
+	while(++i < nsyms)
+		ft_printf("%016lx %c %s\n", array[i].n_value, array[i].n_type, stringtable + array[i].n_un.n_strx);
 }
 
 void						handle_64(char *ptr, t_env *env)
