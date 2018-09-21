@@ -1,27 +1,60 @@
 #include "../includes/nm.h"
 
-unsigned char				get_type(unsigned char ptr)
+unsigned char				get_type(unsigned char type, int n_sect)
 {
-	
-	ft_printf("type: %d\n", ptr);
-	if(ptr == N_UNDF)
-		return 'U';
-	else if(ptr == N_UNDF)
-		return 'U';
-	return ' ';
+
+	if (n_sect == NO_SECT)
+	{
+		if ((type & N_TYPE) == N_UNDF)
+			return ('U');
+		else if ((type & N_TYPE) == N_ABS)
+			return ((type & N_EXT) ? 'A' : 'a');
+	}
+	return '?';
 };
 
-void						print_output(int nsyms, int symoff, int stroff, char *ptr)
+void						print_output_64(int nsyms, int symoff, int stroff, char *ptr)
 {
 	int						i;
 	char					*stringtable;
 	struct nlist_64			*array;
+	unsigned long			n_value;
 
 	i = -1;
 	array = (void *)ptr + symoff;
 	stringtable = (void *)ptr + stroff;
 	while(++i < nsyms)
-		ft_printf("%016lx %c %s\n", array[i].n_value, array[i].n_type, stringtable + array[i].n_un.n_strx);
+	{
+		n_value = array[i].n_value;
+		if(n_value == 0)
+			ft_printf("                 %c %s\n",
+				get_type(array[i].n_type, array[i].n_sect), stringtable + array[i].n_un.n_strx);
+		else
+			ft_printf("%016lx %c %s\n", n_value,
+				get_type(array[i].n_type, array[i].n_sect), stringtable + array[i].n_un.n_strx);
+	}
+}
+
+void						print_output_32(int nsyms, int symoff, int stroff, char *ptr)
+{
+	int						i;
+	char					*stringtable;
+	struct nlist			*array;
+	unsigned long			n_value;
+
+	i = -1;
+	array = (void *)ptr + symoff;
+	stringtable = (void *)ptr + stroff;
+	while(++i < nsyms)
+	{
+		n_value = array[i].n_value;
+		if(n_value == 0)
+			ft_printf("                 %c %s\n",
+				get_type(array[i].n_type, array[i].n_sect), stringtable + array[i].n_un.n_strx);
+		else
+			ft_printf("%016lx %c %s\n", n_value,
+				get_type(array[i].n_type, array[i].n_sect), stringtable + array[i].n_un.n_strx);
+	}
 }
 
 void						handle_64(char *ptr, t_env *env)
@@ -42,7 +75,33 @@ void						handle_64(char *ptr, t_env *env)
 		if(lc->cmd == LC_SYMTAB)
 		{
 			sym = (struct symtab_command *)lc;
-			print_output(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			print_output_64(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			break ;
+		};
+		lc = (void *)lc + lc->cmdsize;
+		i++;
+	}
+}
+
+void						handle_32(char *ptr, t_env *env)
+{
+	int						ncmds;
+	int						i;
+	struct mach_header	*header;
+	struct load_command		*lc;
+	struct symtab_command	*sym;
+
+	i = 0;
+	header = env->header_32;
+	ncmds = header->magic == MH_MAGIC ? header->ncmds :
+		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
+	lc = (void *)ptr + sizeof(*header);
+	while(i < ncmds)
+	{
+		if(lc->cmd == LC_SYMTAB)
+		{
+			sym = (struct symtab_command *)lc;
+			print_output_32(sym->nsyms, sym->symoff, sym->stroff, ptr);
 			break ;
 		};
 		lc = (void *)lc + lc->cmdsize;
@@ -66,8 +125,7 @@ void						nm(char *ptr, t_env *env)
 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{
 		handle_header_32(ptr, env);
-		ft_printf("32\n");
-		// handle_text_section_32(ptr, env);
+		handle_32(ptr, env);
 	}
 	else if (is_sym_tab(ptr) == 0)
 	{

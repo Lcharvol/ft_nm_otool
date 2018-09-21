@@ -17,14 +17,15 @@
 # include <stdio.h>
 # include <sys/mman.h>
 #include <sys/stat.h> 
-# include <mach-o/loader.h>
-# include <mach-o/nlist.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include </usr/include/mach-o/fat.h>
-# include </usr/include/mach/machine.h>
-# include </usr/include/mach-o/ranlib.h>
-# include </usr/include/ar.h>
+# include <mach/machine.h>
+# include <mach-o/ranlib.h>
+# include <mach-o/loader.h>
+# include <mach-o/nlist.h>
+# include <mach-o/arch.h>
+# include <mach-o/fat.h>
+# include <ar.h>
 
 
 # define NM "NM"
