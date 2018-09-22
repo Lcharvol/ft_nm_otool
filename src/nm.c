@@ -1,15 +1,23 @@
 #include "../includes/nm.h"
 
-unsigned char				get_type(unsigned char type, int n_sect)
+unsigned char				get_sect_type()
 {
+	
+}			
 
+unsigned char				get_type(char *ptr, unsigned char type, int n_sect)
+{
 	if (n_sect == NO_SECT)
 	{
 		if ((type & N_TYPE) == N_UNDF)
 			return ('U');
 		else if ((type & N_TYPE) == N_ABS)
 			return ((type & N_EXT) ? 'A' : 'a');
+		else if ((type & N_TYPE) == N_PBUD)
+			return ((type & N_EXT) ? 'U' : 'u');
 	}
+	if((type & N_TYPE) == N_SECT)
+		return get_sect_type(n_sect, ptr);
 	return '?';
 };
 
@@ -70,31 +78,28 @@ t_outputs					*save_outputs_64(int nsyms, int symoff, int stroff, char *ptr)
 	outputs = (t_outputs *)malloc(sizeof(*outputs));
 	outputs->next = NULL;
 	while(++i < nsyms)
-		outputs = add_output(array[i].n_value, get_type(array[i].n_type,
+		outputs = add_output(array[i].n_value, get_type(ptr, array[i].n_type,
 			array[i].n_sect), stringtable + array[i].n_un.n_strx, outputs);
 	return outputs;
 }
 
-void						save_outputs_32(int nsyms, int symoff, int stroff, char *ptr)
+t_outputs					*save_outputs_32(int nsyms, int symoff, int stroff, char *ptr)
 {
 	int						i;
 	char					*stringtable;
 	struct nlist			*array;
 	unsigned long			n_value;
+	t_outputs				*outputs;
 
 	i = -1;
 	array = (void *)ptr + symoff;
 	stringtable = (void *)ptr + stroff;
+	outputs = (t_outputs *)malloc(sizeof(*outputs));
+	outputs->next = NULL;
 	while(++i < nsyms)
-	{
-		n_value = array[i].n_value;
-		if(n_value == 0)
-			ft_printf("                 %c %s\n",
-				get_type(array[i].n_type, array[i].n_sect), stringtable + array[i].n_un.n_strx);
-		else
-			ft_printf("%016lx %c %s\n", n_value,
-				get_type(array[i].n_type, array[i].n_sect), stringtable + array[i].n_un.n_strx);
-	}
+		outputs = add_output(array[i].n_value, get_type(ptr, array[i].n_type,
+			array[i].n_sect), stringtable + array[i].n_un.n_strx, outputs);
+	return outputs;
 }
 
 void						handle_64(char *ptr, t_env *env)
@@ -143,7 +148,9 @@ void						handle_32(char *ptr, t_env *env)
 		if(lc->cmd == LC_SYMTAB)
 		{
 			sym = (struct symtab_command *)lc;
-			save_outputs_32(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			env->outputs = save_outputs_32(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			sort_outputs(env->outputs);
+			print_outputs(env);
 			break ;
 		};
 		lc = (void *)lc + lc->cmdsize;
