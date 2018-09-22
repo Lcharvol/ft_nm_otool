@@ -31,15 +31,18 @@
 # define NM "NM"
 # define OTOOL "OTOOL"
 # define MY_CPU_TYPE CPU_TYPE_X86_64
-#define NM_FLAG_A(x)		(x & 0b1)
-#define NM_FLAG_G(x)		(x & 0b10)
-#define NM_FLAG_P(x)		(x & 0b100)
-#define NM_FLAG_U(x)		(x & 0b1000)
-#define NM_FLAG_UU(x)		(x & 0b10000)
-#define NM_FLAG_J(x)		(x & 0b100000)
-#define NM_FLAG_R(x)		(x & 0b1000000)
-#define NM_FLAG_N(x)		(x & 0b10000000)
-typedef struct			s_env
+
+typedef struct			s_outputs
+{
+	unsigned long		n_value;
+	unsigned char		n_type;
+	char				*name;
+	int					used;
+	
+	struct s_outputs	*next;
+}						t_outputs;
+
+typedef struct				s_env
 {
 	uint32_t				magic_number;
 	char					*exec_type;
@@ -52,6 +55,7 @@ typedef struct			s_env
 	struct mach_header		*header_32;
 	struct fat_header		*header_fat;
 	struct ar_hdr			*header_sym;
+	t_outputs				*outputs;
 }   						t_env;
 
 int	                    print_usage(void);
@@ -74,5 +78,6 @@ int						is_sym_tab(char *ptr);
 void					handle_sym_tab(char *ptr, t_env *env);
 int						is_corrupted_64(struct segment_command_64	*sc, t_env *env);
 int						is_corrupted(struct segment_command	*sc, t_env *env);
+t_outputs 				*sort_outputs(t_outputs *outputs);
 
 #endif

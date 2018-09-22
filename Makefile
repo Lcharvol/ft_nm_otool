@@ -15,6 +15,7 @@ NM_SRC_NAME =	nm.c \
 				exit.c \
 				header.c \
 				utils.c \
+				sort.c \
 
 OBJ_PATH = .obj/
 

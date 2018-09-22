@@ -13,29 +13,69 @@ unsigned char				get_type(unsigned char type, int n_sect)
 	return '?';
 };
 
-void						print_output_64(int nsyms, int symoff, int stroff, char *ptr)
+void						print_outputs(t_env *env)
+{
+	t_outputs	*outputs;
+
+	outputs = env->outputs;
+	while(outputs)
+	{
+		if(outputs->n_value == 0)
+			ft_printf("                 %c %s\n",
+				outputs->n_type, outputs->name);
+		else
+			ft_printf("%016lx %c %s\n", outputs->n_value,
+				outputs->n_type, outputs->name);
+		outputs = outputs->next;
+	}
+}
+
+t_outputs					*add_output(unsigned long n_value, unsigned char n_type, char *name, t_outputs *outputs)
+{
+	t_outputs	*tmp;
+	t_outputs	*new;
+
+	tmp = outputs;
+	while(outputs->next)
+		outputs = outputs->next;
+	if(outputs->used != 1)
+	{
+		outputs->n_value = n_value;
+		outputs->n_type = n_type;
+		outputs->used = 1;
+		outputs->name = name;
+		outputs->next = NULL;
+		return outputs;
+	}
+	new = (t_outputs *)malloc(sizeof(t_outputs));
+	new->n_value = n_value;
+	new->n_type = n_type;
+	new->used = 1;
+	new->name = name;
+	new->next = NULL;
+	outputs->next = new;
+	return tmp;
+}
+
+t_outputs					*save_outputs_64(int nsyms, int symoff, int stroff, char *ptr)
 {
 	int						i;
 	char					*stringtable;
 	struct nlist_64			*array;
-	unsigned long			n_value;
+	t_outputs				*outputs;
 
 	i = -1;
 	array = (void *)ptr + symoff;
 	stringtable = (void *)ptr + stroff;
+	outputs = (t_outputs *)malloc(sizeof(*outputs));
+	outputs->next = NULL;
 	while(++i < nsyms)
-	{
-		n_value = array[i].n_value;
-		if(n_value == 0)
-			ft_printf("                 %c %s\n",
-				get_type(array[i].n_type, array[i].n_sect), stringtable + array[i].n_un.n_strx);
-		else
-			ft_printf("%016lx %c %s\n", n_value,
-				get_type(array[i].n_type, array[i].n_sect), stringtable + array[i].n_un.n_strx);
-	}
+		outputs = add_output(array[i].n_value, get_type(array[i].n_type,
+			array[i].n_sect), stringtable + array[i].n_un.n_strx, outputs);
+	return outputs;
 }
 
-void						print_output_32(int nsyms, int symoff, int stroff, char *ptr)
+void						save_outputs_32(int nsyms, int symoff, int stroff, char *ptr)
 {
 	int						i;
 	char					*stringtable;
@@ -75,7 +115,9 @@ void						handle_64(char *ptr, t_env *env)
 		if(lc->cmd == LC_SYMTAB)
 		{
 			sym = (struct symtab_command *)lc;
-			print_output_64(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			env->outputs = save_outputs_64(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			sort_outputs(env->outputs);
+			print_outputs(env);
 			break ;
 		};
 		lc = (void *)lc + lc->cmdsize;
@@ -101,7 +143,7 @@ void						handle_32(char *ptr, t_env *env)
 		if(lc->cmd == LC_SYMTAB)
 		{
 			sym = (struct symtab_command *)lc;
-			print_output_32(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			save_outputs_32(sym->nsyms, sym->symoff, sym->stroff, ptr);
 			break ;
 		};
 		lc = (void *)lc + lc->cmdsize;

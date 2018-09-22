@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "nm.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "loader.h": "c"
     }
 }
