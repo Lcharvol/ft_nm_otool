@@ -79,5 +79,9 @@ void					handle_sym_tab(char *ptr, t_env *env);
 int						is_corrupted_64(struct segment_command_64	*sc, t_env *env);
 int						is_corrupted(struct segment_command	*sc, t_env *env);
 t_outputs 				*sort_outputs(t_outputs *outputs);
+t_outputs				*save_outputs_32(int nsyms, int symoff, int stroff, char *ptr);
+t_outputs				*save_outputs_64(int nsyms, int symoff, int stroff, char *ptr);
+unsigned char			get_type(char *ptr, unsigned char type, int n_sect);
+void					print_outputs(t_env *env);
 
 #endif
