@@ -66,7 +66,7 @@ void							handle_text_section_64(char *ptr, t_env *env)
 	sc = (void *)ptr + sizeof(*header);
 	ncmds = header->magic == MH_MAGIC_64 ? header->ncmds :
 		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
-	while (i++ < ncmds)
+	while (++i < ncmds)
 	{
 		if ((((void *)sc + sc->cmdsize) > ((void *)ptr + header->sizeofcmds))
 			& (i < (ncmds - 2)))
@@ -95,7 +95,7 @@ void							handle_text_section_32(char *ptr, t_env *env)
 	sc = (void *)ptr + sizeof(*header);
 	ncmds = header->magic == MH_MAGIC ? header->ncmds :
 		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
-	while (i++ < ncmds)
+	while (++i < ncmds)
 	{
 		if ((((void *)sc + sc->cmdsize) > ((void *)ptr + header->sizeofcmds))
 			& (i < (ncmds - 2)))

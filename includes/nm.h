@@ -92,5 +92,6 @@ unsigned char				get_type_64(char *ptr, unsigned char type,
 		int n_sect);
 void						print_outputs_64(t_env *env);
 void						print_outputs_32(t_env *env);
+t_outputs					*remove_double(t_outputs *outputs);
 
 #endif

@@ -1,0 +1,11 @@
+--- file/ssh-keychain.dylib/nm	2018-10-19 15:59:43.000000000 +0200
++++ file/ssh-keychain.dylib/ft_nm	2018-10-19 15:59:44.000000000 +0200
+@@ -169,7 +169,7 @@
+                  U _objc_retainAutoreleasedReturnValue
+                  U _objc_setProperty_atomic
+                  U _objc_storeStrong
+-0000000000007120 d _pkcs11_function_list
++0000000000007120 s _pkcs11_function_list
+ 00000000000035fa t _processIdentity
+ 0000000000003132 t _stringCpyPaddedWithSpaces
+                  U _strlen

@@ -142,10 +142,36 @@ unsigned char					get_type_32(char *ptr, unsigned char type,
 		else if ((type & N_TYPE) == N_PBUD)
 			return ((type & N_EXT) ? 'U' : 'u');
 	}
-	if ((type & N_TYPE) == N_SECT)
+	else if (n_sect != NO_SECT)
 		return (get_sect_type_32(n_sect, ptr, type));
 	return ('?');
 }
+
+// char	get_symbol_value_64(t_nm *nm, struct nlist_64 *nlist)
+// {
+// 	struct section_64	*section;
+
+// 	if (nlist->n_sect == NO_SECT)
+// 	{
+// 		if ((nlist->n_type & N_TYPE) == N_UNDF)
+// 			return ('U');
+// 		else if ((nlist->n_type & N_TYPE) == N_ABS)
+// 			return ((nlist->n_type & N_EXT) ? 'A' : 'a');
+// 	}
+// 	else if (nlist->n_sect != NO_SECT &&
+// 		(section = ft_vector_get(&nm->sect_64, nlist->n_sect - 1)))
+// 	{
+// 		if (!ft_strcmp((char*)&section->sectname, SECT_TEXT))
+// 			return ((nlist->n_type & N_EXT) ? 'T' : 't');
+// 		else if (!ft_strcmp((char*)&section->sectname, SECT_BSS))
+// 			return ((nlist->n_type & N_EXT) ? 'B' : 'b');
+// 		else if (!ft_strcmp((char*)&section->sectname, SECT_DATA))
+// 			return ((nlist->n_type & N_EXT) ? 'D' : 'd');
+// 		else
+// 			return ((nlist->n_type & N_EXT) ? 'S' : 's');
+// 	}
+// 	return ('?');
+// }
 
 unsigned char					get_type_64(char *ptr, unsigned char type,
 		int n_sect)

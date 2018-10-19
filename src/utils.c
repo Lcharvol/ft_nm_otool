@@ -45,3 +45,31 @@ int				is_sym_tab(char *ptr)
 			return (-1);
 	return (0);
 }
+
+t_outputs		*remove_double(t_outputs *outputs)
+{
+	t_outputs	*tmp;
+	t_outputs	*tmp2;
+	t_outputs	*prev;
+
+	tmp = outputs;
+	prev = tmp;
+	tmp2 = tmp->next;
+	while(outputs)
+	{
+		if(outputs->next)
+		{
+			if(ft_strcmp(outputs->name, outputs->next->name) == 0
+				&& outputs->n_value == outputs->next->n_value)
+			{
+				tmp2 = outputs->next;
+				outputs = prev;
+				outputs->next = tmp2;
+			}
+		}
+		prev = outputs;
+		outputs = outputs->next;
+	}
+	outputs = tmp;
+	return outputs;
+}

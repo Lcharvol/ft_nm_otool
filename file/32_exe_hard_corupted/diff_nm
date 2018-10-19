@@ -1,0 +1,5 @@
+--- file/32_exe_hard_corupted/nm	2018-10-19 15:55:00.000000000 +0200
++++ file/32_exe_hard_corupted/ft_nm	2018-10-19 15:55:00.000000000 +0200
+@@ -1,2 +0,0 @@
+-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm: tests/hell/32_exe_hard_corupted truncated or malformed object (offset field plus size field of section 0 in LC_SEGMENT command 1 extends past the end of the file)
+-

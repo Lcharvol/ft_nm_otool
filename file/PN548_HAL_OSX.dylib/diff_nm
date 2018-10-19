@@ -1,0 +1,75 @@
+--- file/PN548_HAL_OSX.dylib/nm	2018-10-19 15:55:10.000000000 +0200
++++ file/PN548_HAL_OSX.dylib/ft_nm	2018-10-19 15:55:10.000000000 +0200
+@@ -67,11 +67,11 @@
+ 0000000000008d3a T _NFHardwareUARTDebugDump
+ 0000000000008c06 T _NFHardwareUARTDebugLastMessage
+ 0000000000008c13 T _NFHardwareUARTDebugLog
+-000000000000b830 b _NFHardwareUARTDebugMsgList
+-000000000000b820 b _NFHardwareUARTDebugMsgListIndex
++000000000000b830 s _NFHardwareUARTDebugMsgList
++000000000000b820 s _NFHardwareUARTDebugMsgListIndex
+ 000000000000b6b0 s _NFHardwareUARTDebugMsgTypeString
+-000000000002c830 b _NFHardwareUARTDebugQueue.onceToken
+-000000000002c838 b _NFHardwareUARTDebugQueue.queue
++000000000002c830 s _NFHardwareUARTDebugQueue.onceToken
++000000000002c838 s _NFHardwareUARTDebugQueue.queue
+ 0000000000006599 T _NFHardwareUARTDump
+ 00000000000071d0 T _NFHardwareUARTFlush
+ 000000000000780f T _NFHardwareUARTOpen
+@@ -95,31 +95,31 @@
+ 000000000000947d t _NFLogFormat
+                  U _NFSetThreadPriority
+ 0000000000008987 T _NFSharedDumpTransport
+-000000000000b7f8 b _NFSharedDumpTransport.nciLog
++000000000000b7f8 s _NFSharedDumpTransport.nciLog
+ 00000000000085f5 T _NFSharedLogLock
+-000000000000b798 b _NFSharedLogLock.onceToken
++000000000000b798 s _NFSharedLogLock.onceToken
+ 00000000000085dd T _NFSharedLogSetDiagnosticLogging
+ 00000000000085e9 T _NFSharedLogSetSynchronousLogging
+ 0000000000008a90 T _NFSharedLogTransport
+-000000000000b810 b _NFSharedLogTransport._NFSharedTransportLogQueue
+-000000000000b808 b _NFSharedLogTransport.nciLog
+-000000000000b800 b _NFSharedLogTransport.onceToken
++000000000000b810 s _NFSharedLogTransport._NFSharedTransportLogQueue
++000000000000b808 s _NFSharedLogTransport.nciLog
++000000000000b800 s _NFSharedLogTransport.onceToken
+ 0000000000008682 T _NFSharedLogUnlock
+ 000000000000870f T _NFSharedLogv
+-000000000000b7f0 b _NFSharedLogv.onceToken
++000000000000b7f0 s _NFSharedLogv.onceToken
+                  U _NFSimulateCrash
+                  U __Block_object_assign
+                  U __Block_object_dispose
+ 0000000000005dbf t __NFHardwareGPIOSetBoolean
+ 000000000000501f t __NFHardwareRelaySocketClientOpen
+-000000000000b818 b __NFHardwareUARTDebugLastMessage
+-000000000000b790 b __NFLogDiagnostics
+-000000000000b760 d __NFLogIsSynchronous
+-000000000000b7e8 b __NFSharedLogClient
++000000000000b818 s __NFHardwareUARTDebugLastMessage
++000000000000b790 s __NFLogDiagnostics
++000000000000b760 s __NFLogIsSynchronous
++000000000000b7e8 s __NFSharedLogClient
+ 00000000000086d5 T __NFSharedLogClose
+-000000000000b7a0 b __NFSharedLogMutex
++000000000000b7a0 s __NFSharedLogMutex
+ 0000000000008693 T __NFSharedLogOpen
+-000000000000b7e0 b __NFSharedLogQueue
++000000000000b7e0 s __NFSharedLogQueue
+                  U __NSConcreteGlobalBlock
+                  U __NSConcreteStackBlock
+ 0000000000008d71 t ___NFHardwareUARTDebugDump_block_invoke
+@@ -218,9 +218,9 @@
+                  U _fwrite
+ 000000000002c850 S _gNFHardwareLogv
+ 000000000002c840 S _gPN548_HAL_Logv
+-000000000000b780 b _gRefCount
+-000000000000b778 b _gRelay
+-000000000000b770 b _gTimerContext
++000000000000b780 s _gRefCount
++000000000000b778 s _gRelay
++000000000000b770 s _gTimerContext
+                  U _getsockopt
+                  U _gettimeofday
+ 000000000002c848 S _gpphOsalNfc_Context

@@ -1,5 +1,5 @@
 # export TEST_FILE="tests/hell/appsleepd"
-export TEST_FILE1="tests/hell/bash"
+export TEST_FILE1="tests/hell/32_exe_hard"
 
 export TEST_FILE2="a.out"
 

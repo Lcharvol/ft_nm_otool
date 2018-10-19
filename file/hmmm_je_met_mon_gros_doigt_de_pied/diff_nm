@@ -1,0 +1,6 @@
+--- file/hmmm_je_met_mon_gros_doigt_de_pied/nm	2018-10-19 15:55:43.000000000 +0200
++++ file/hmmm_je_met_mon_gros_doigt_de_pied/ft_nm	2018-10-19 15:55:43.000000000 +0200
+@@ -1,2 +1 @@
+-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm: tests/hell/hmmm_je_met_mon_gros_doigt_de_pied truncated or malformed object (load command 10 cmdsize not a multiple of 8)
+-
++(null): is not an object file

@@ -16,7 +16,7 @@ void				print_outputs_32(t_env *env)
 {
 	t_outputs		*outputs;
 
-	outputs = env->outputs;
+	outputs = remove_double(env->outputs);
 	while (outputs)
 	{
 		if (outputs->n_value == 0)
@@ -33,7 +33,7 @@ void				print_outputs_64(t_env *env)
 {
 	t_outputs		*outputs;
 
-	outputs = env->outputs;
+	outputs = remove_double(env->outputs);
 	while (outputs)
 	{
 		if (outputs->n_value == 0)
@@ -53,6 +53,8 @@ static t_outputs	*add_output(unsigned long n_value, unsigned char n_type,
 	t_outputs		*new;
 
 	tmp = outputs;
+	if(ft_strlen(name) == 0 || n_type == '?')
+		return (outputs);
 	while (outputs->next)
 		outputs = outputs->next;
 	if (outputs->used != 1)
@@ -91,8 +93,7 @@ t_outputs			*save_outputs_64(int nsyms, int symoff,
 	while (++i < nsyms)
 	{
 		type = get_type_64(ptr, array[i].n_type, array[i].n_sect);
-		if (type != 'u')
-			outputs = add_output(array[i].n_value, type, stringtable +
+		outputs = add_output(array[i].n_value, type, stringtable +
 					array[i].n_un.n_strx, outputs);
 	}
 	return (outputs);
@@ -115,8 +116,7 @@ t_outputs			*save_outputs_32(int nsyms, int symoff,
 	while (++i < nsyms)
 	{
 		type = get_type_32(ptr, array[i].n_type, array[i].n_sect);
-		if (type != 'u')
-			outputs = add_output(array[i].n_value, type, stringtable +
+		outputs = add_output(array[i].n_value, type, stringtable +
 					array[i].n_un.n_strx, outputs);
 	}
 	return (outputs);
