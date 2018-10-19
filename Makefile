@@ -48,6 +48,9 @@ OTOOL_OBJ = $(addprefix $(OBJ_PATH), $(OTOOL_OBJ_NAME))
 
 all: $(NM) $(OTOOL)
 
+newline:
+		@echo "\033[38;5;166m\033[0m\n"
+
 $(NM): $(NM_OBJ)
 	make -C ./libft/
 	$(CC) $^ -o $(NM) $(LDFLAGS) $(LDLIBS)
@@ -70,3 +73,6 @@ fclean: clean
 	rm -f $(NM) $(OTOOL)
 
 re: fclean all
+
+norme: newline
+		norminette ${OTOOL_SRC} $(NM_SRC) includes

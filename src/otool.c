@@ -65,14 +65,11 @@ int					main(int ac, char **av)
 	t_env			env;
 
 	i = 0;
+	ft_bzero(&env, sizeof(t_env));
 	if (ac < 2)
-	{
-		ft_bzero(&env, sizeof(t_env));
 		handle_file("a.aout", &env);
-	}
 	while (++i < ac)
 	{
-		ft_bzero(&env, sizeof(t_env));
 		env.file_name = av[i];
 		env.exec_type = OTOOL;
 		env.ar_name = "";

@@ -6,7 +6,7 @@
 /*   By: lcharvol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 21:51:52 by lcharvol          #+#    #+#             */
-/*   Updated: 2018/09/19 21:57:02 by lcharvol         ###   ########.fr       */
+/*   Updated: 2018/10/19 14:37:02 by lcharvol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ void							handle_text_section_64(char *ptr, t_env *env)
 	uint32_t					i;
 	uint32_t					ncmds;
 
-	i = 0;
+	i = -1;
 	header = env->header_64;
 	sc = (void *)ptr + sizeof(*header);
 	ncmds = header->magic == MH_MAGIC_64 ? header->ncmds :
 		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
-	while (i < ncmds)
+	while (i++ < ncmds)
 	{
-		if((((void *)sc + sc->cmdsize) > ((void *)ptr + header->sizeofcmds))
+		if ((((void *)sc + sc->cmdsize) > ((void *)ptr + header->sizeofcmds))
 			& (i < (ncmds - 2)))
 			return (corrupted_exit(env->file_name));
 		if (sc->cmd == LC_SEGMENT_64)
@@ -80,7 +80,6 @@ void							handle_text_section_64(char *ptr, t_env *env)
 			handle_segment_64(ptr, sc, env);
 		}
 		sc = (void *)sc + sc->cmdsize;
-		i++;
 	}
 }
 
@@ -91,14 +90,14 @@ void							handle_text_section_32(char *ptr, t_env *env)
 	uint32_t					i;
 	uint32_t					ncmds;
 
-	i = 0;
+	i = -1;
 	header = env->header_32;
 	sc = (void *)ptr + sizeof(*header);
 	ncmds = header->magic == MH_MAGIC ? header->ncmds :
 		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
-	while (i < ncmds)
+	while (i++ < ncmds)
 	{
-		if((((void *)sc + sc->cmdsize) > ((void *)ptr + header->sizeofcmds))
+		if ((((void *)sc + sc->cmdsize) > ((void *)ptr + header->sizeofcmds))
 			& (i < (ncmds - 2)))
 			return (corrupted_exit(env->file_name));
 		if (sc->cmd == LC_SEGMENT)
@@ -110,6 +109,5 @@ void							handle_text_section_32(char *ptr, t_env *env)
 			handle_segment_32(ptr, sc, env);
 		}
 		sc = (void *)sc + sc->cmdsize;
-		i++;
 	}
 }

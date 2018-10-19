@@ -4,3 +4,5 @@
 tests.sh
 test_jjourdai.sh
 .DS_Store
+mon_otool.txt
+native_otool.txt
