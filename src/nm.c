@@ -20,16 +20,21 @@ void						handle_64(char *ptr, t_env *env)
 	struct load_command		*lc;
 	struct symtab_command	*sym;
 
-	i = 0;
+	i = -1;
 	header = env->header_64;
 	ncmds = header->magic == MH_MAGIC_64 ? header->ncmds :
 		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
 	lc = (void *)ptr + sizeof(*header);
-	while (i < ncmds)
+	while (++i < ncmds)
 	{
-		if (lc->cmd == LC_SYMTAB)
+		if ((((void *)lc + lc->cmdsize) >= ((void *)ptr + header->sizeofcmds)))
+			return (corrupted_exit(env->file_name));
+		else if (lc->cmd == LC_SYMTAB)
 		{
 			sym = (struct symtab_command *)lc;
+			if((((void *)ptr + sym->stroff + sym->strsize) > ((void *)ptr + env->file_size))
+				&& (i > 4))
+				return (corrupted_exit(env->file_name));
 			env->outputs = save_outputs_64(sym->nsyms, sym->symoff,
 					sym->stroff, ptr);
 			sort_outputs(env->outputs);
@@ -37,7 +42,6 @@ void						handle_64(char *ptr, t_env *env)
 			break ;
 		}
 		lc = (void *)lc + lc->cmdsize;
-		i++;
 	}
 }
 
@@ -56,9 +60,15 @@ void						handle_32(char *ptr, t_env *env)
 	lc = (void *)ptr + sizeof(*header);
 	while (i < ncmds)
 	{
+		if ((((void *)lc + lc->cmdsize) > ((void *)ptr + header->sizeofcmds))
+			& (i < (ncmds - 2)))
+			return (corrupted_exit(env->file_name));
 		if (lc->cmd == LC_SYMTAB)
 		{
 			sym = (struct symtab_command *)lc;
+			if((((void *)ptr + sym->stroff + sym->strsize) > ((void *)ptr + env->file_size))
+				&& (i > 4))
+				return (corrupted_exit(env->file_name));
 			env->outputs = save_outputs_32(sym->nsyms, sym->symoff,
 					sym->stroff, ptr);
 			sort_outputs(env->outputs);
@@ -91,7 +101,6 @@ void						nm(char *ptr, t_env *env)
 	else if (is_sym_tab(ptr) == 0)
 	{
 		handle_sym_tab_header(ptr, env);
-		ft_printf("sym tab\n");
 	}
 	else
 		not_an_object_exit(env->file_name);

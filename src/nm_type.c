@@ -107,9 +107,6 @@ static unsigned char			get_sect_type_32(int n_sect, char *ptr,
 	struct section				*section;
 
 	section = get_section_32(ptr, n_sect);
-	ft_putstr("section->sectname: ");
-	ft_putnbr(n_sect);
-	ft_putendl(section->sectname);
 	if (!ft_strcmp((char*)section->sectname, SECT_TEXT))
 		return ((type & N_EXT) ? 'T' : 't');
 	else if (!ft_strcmp((char*)section->sectname, SECT_BSS))
