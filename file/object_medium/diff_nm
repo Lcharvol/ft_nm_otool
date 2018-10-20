@@ -1,8 +1,0 @@
---- file/object_medium/nm	2018-10-19 15:59:43.000000000 +0200
-+++ file/object_medium/ft_nm	2018-10-19 15:59:43.000000000 +0200
-@@ -17,4 +17,4 @@
-                  U _io_map_file
-                  U _io_unmap_file
- 0000000000000500 T _main
--0000000000000000 T _print
-+                 T _print

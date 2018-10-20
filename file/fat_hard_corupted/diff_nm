@@ -1,6 +1,0 @@
---- file/fat_hard_corupted/nm	2018-10-19 15:55:42.000000000 +0200
-+++ file/fat_hard_corupted/ft_nm	2018-10-19 15:55:42.000000000 +0200
-@@ -1,2 +1 @@
--/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm: tests/hell/fat_hard_corupted truncated or malformed fat file (offset plus size of cputype (7) cpusubtype (3) extends past the end of the file)
--
-+(null): is not an object file

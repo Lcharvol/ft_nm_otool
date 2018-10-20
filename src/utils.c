@@ -53,8 +53,7 @@ t_outputs		*remove_double(t_outputs *outputs)
 	t_outputs	*prev;
 
 	tmp = outputs;
-	prev = tmp;
-	tmp2 = tmp->next;
+	prev = NULL;
 	while(outputs)
 	{
 		if(outputs->next)
@@ -63,8 +62,13 @@ t_outputs		*remove_double(t_outputs *outputs)
 				&& outputs->n_value == outputs->next->n_value)
 			{
 				tmp2 = outputs->next;
-				outputs = prev;
-				outputs->next = tmp2;
+				if(prev == NULL)
+					tmp = outputs->next;
+				else
+				{
+					outputs = prev;
+					outputs->next = tmp2;
+				}
 			}
 		}
 		prev = outputs;

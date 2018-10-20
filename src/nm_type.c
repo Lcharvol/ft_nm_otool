@@ -22,7 +22,7 @@ struct section					*handle_segment_32(struct segment_command *sc,
 	sects = (void *)sc + sizeof(struct segment_command);
 	while (i < sc->nsects)
 	{
-		if (i == (uint32_t)(n_sect - 1))
+		if (i == (uint32_t)(n_sect))
 			return (sects);
 		sects = (void *)sects + sizeof(struct section);
 		i++;
@@ -54,10 +54,12 @@ struct section					*get_section_32(char *ptr, int n_sect)
 	struct mach_header			*header;
 	uint32_t					i;
 	uint32_t					ncmds;
+	unsigned int				sec_summ;
 
 	i = 0;
 	header = (struct mach_header *)ptr;
 	sc = (void *)ptr + sizeof(*header);
+	sec_summ = 0;
 	ncmds = header->magic == MH_MAGIC ? header->ncmds :
 		swap_bigendian_littleendian(header->ncmds, sizeof(header->ncmds));
 	while (i < ncmds)
@@ -65,8 +67,9 @@ struct section					*get_section_32(char *ptr, int n_sect)
 		if ((((void *)sc + sc->cmdsize) > ((void *)ptr + header->sizeofcmds))
 			& (i < (ncmds - 2)))
 			exit(0);
-		if (sc->cmd == LC_SEGMENT && sc->nsects > 0)
-			return (handle_segment_32(sc, n_sect));
+		if (sc->cmd == LC_SEGMENT && (sec_summ + sc->nsects) > n_sect)
+			return (handle_segment_32(sc, n_sect - sec_summ - 1));
+		sec_summ += sc->nsects;
 		sc = (void *)sc + sc->cmdsize;
 		i++;
 	}
@@ -104,6 +107,9 @@ static unsigned char			get_sect_type_32(int n_sect, char *ptr,
 	struct section				*section;
 
 	section = get_section_32(ptr, n_sect);
+	// ft_putstr("section->sectname: ");
+	// ft_putnbr(n_sect);
+	// ft_putendl(section->sectname);
 	if (!ft_strcmp((char*)section->sectname, SECT_TEXT))
 		return ((type & N_EXT) ? 'T' : 't');
 	else if (!ft_strcmp((char*)section->sectname, SECT_BSS))
@@ -120,11 +126,11 @@ static unsigned char			get_sect_type_64(int n_sect, char *ptr,
 	struct section_64			*section;
 
 	section = get_section_64(ptr, n_sect);
-	if (!ft_strcmp((char*)section->sectname, SECT_TEXT))
+	if (!ft_strcmp((char*)&section->sectname, SECT_TEXT))
 		return ((type & N_EXT) ? 'T' : 't');
-	else if (!ft_strcmp((char*)section->sectname, SECT_BSS))
+	else if (!ft_strcmp((char*)&section->sectname, SECT_BSS))
 		return ((type & N_EXT) ? 'B' : 'b');
-	else if (!ft_strcmp((char*)section->sectname, SECT_DATA))
+	else if (!ft_strcmp((char*)&section->sectname, SECT_DATA))
 		return ((type & N_EXT) ? 'D' : 'd');
 	else
 		return ((type & N_EXT) ? 'S' : 's');
@@ -139,39 +145,11 @@ unsigned char					get_type_32(char *ptr, unsigned char type,
 			return ('U');
 		else if ((type & N_TYPE) == N_ABS)
 			return ((type & N_EXT) ? 'A' : 'a');
-		else if ((type & N_TYPE) == N_PBUD)
-			return ((type & N_EXT) ? 'U' : 'u');
 	}
 	else if (n_sect != NO_SECT)
 		return (get_sect_type_32(n_sect, ptr, type));
 	return ('?');
 }
-
-// char	get_symbol_value_64(t_nm *nm, struct nlist_64 *nlist)
-// {
-// 	struct section_64	*section;
-
-// 	if (nlist->n_sect == NO_SECT)
-// 	{
-// 		if ((nlist->n_type & N_TYPE) == N_UNDF)
-// 			return ('U');
-// 		else if ((nlist->n_type & N_TYPE) == N_ABS)
-// 			return ((nlist->n_type & N_EXT) ? 'A' : 'a');
-// 	}
-// 	else if (nlist->n_sect != NO_SECT &&
-// 		(section = ft_vector_get(&nm->sect_64, nlist->n_sect - 1)))
-// 	{
-// 		if (!ft_strcmp((char*)&section->sectname, SECT_TEXT))
-// 			return ((nlist->n_type & N_EXT) ? 'T' : 't');
-// 		else if (!ft_strcmp((char*)&section->sectname, SECT_BSS))
-// 			return ((nlist->n_type & N_EXT) ? 'B' : 'b');
-// 		else if (!ft_strcmp((char*)&section->sectname, SECT_DATA))
-// 			return ((nlist->n_type & N_EXT) ? 'D' : 'd');
-// 		else
-// 			return ((nlist->n_type & N_EXT) ? 'S' : 's');
-// 	}
-// 	return ('?');
-// }
 
 unsigned char					get_type_64(char *ptr, unsigned char type,
 		int n_sect)
@@ -182,8 +160,6 @@ unsigned char					get_type_64(char *ptr, unsigned char type,
 			return ('U');
 		else if ((type & N_TYPE) == N_ABS)
 			return ((type & N_EXT) ? 'A' : 'a');
-		else if ((type & N_TYPE) == N_PBUD)
-			return ((type & N_EXT) ? 'U' : 'u');
 	}
 	if ((type & N_TYPE) == N_SECT)
 		return (get_sect_type_64(n_sect, ptr, type));
