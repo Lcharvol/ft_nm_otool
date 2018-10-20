@@ -30,6 +30,7 @@
 # define NM "NM"
 # define OTOOL "OTOOL"
 # define MY_CPU_TYPE CPU_TYPE_X86_64
+# define STR_MAX 128
 
 typedef struct				s_outputs
 {
@@ -75,6 +76,7 @@ uint64_t					swap_bigendian_littleendian(uint64_t number,
 void						handle_fat_arch(char *ptr, t_env *env);
 void						handle_sym_tab_header(char *ptr, t_env *env);
 void						otool(char *ptr, t_env *env);
+void						nm(char *ptr, t_env *env);
 int							is_sym_tab(char *ptr);
 void						handle_sym_tab(char *ptr, t_env *env);
 int							is_corrupted_64(struct segment_command_64

@@ -7,7 +7,7 @@ OTOOL_SRC_NAME = 	otool.c \
 					section.c \
 					print_text_section.c \
 					utils.c \
-					fat.c \
+					otool_fat.c \
 					sym_tab.c \
 					corupted.c \
 
@@ -15,6 +15,7 @@ NM_SRC_NAME =	nm.c \
 				exit.c \
 				header.c \
 				utils.c \
+				nm_fat.c \
 				sort.c \
 				nm_outputs.c \
 				nm_type.c \

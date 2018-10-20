@@ -23,8 +23,8 @@ t_outputs			*remove_no_address_doublon(t_outputs *outputs)
 	{
 		if(outputs->next)
 		{
-			if(ft_strcmp(outputs->name, outputs->next->name) == 0
-				&& outputs->n_value == 0)
+			if((ft_strcmp(outputs->name, outputs->next->name) == 0
+				&& outputs->n_value == 0) || ft_strlen(outputs->name) > STR_MAX)
 			{
 				outputs = prev;
 				outputs->next = outputs->next->next;

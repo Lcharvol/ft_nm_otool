@@ -1,0 +1,5 @@
+--- file/curl_chibre/otool	2018-10-20 13:05:29.000000000 +0200
++++ file/curl_chibre/ft_otool	2018-10-20 13:05:29.000000000 +0200
+@@ -1 +1 @@
+-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump: 'tests/hell/curl_chibre': truncated or malformed object (load command 1 extends past the end all load commands in the file)
++Corupted file: tests/hell/curl_chibre

@@ -76,7 +76,9 @@ void						nm(char *ptr, t_env *env)
 
 	magic_number = *(uint32_t *)ptr;
 	env->magic_number = magic_number;
-	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
+	if (magic_number == FAT_MAGIC || magic_number == FAT_CIGAM)
+		handle_fat_arch(ptr, env);
+	else if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
 		handle_header_64(ptr, env);
 		handle_64(ptr, env);
@@ -109,6 +111,7 @@ static int					handle_file(char *file_name, t_env *env)
 			== MAP_FAILED)
 		return (not_an_object_exit(file_name));
 	env->file_size = buf.st_size;
+	env->file_name = file_name;
 	nm(ptr, env);
 	if (munmap(ptr, buf.st_size) < 0)
 		return (not_an_object_exit(file_name));
@@ -121,15 +124,15 @@ int							main(int ac, char **av)
 	t_env					env;
 
 	i = 0;
+	ft_bzero(&env, sizeof(t_env));
+	env.exec_type = NM;
 	if (ac < 2)
-	{
-		ft_bzero(&env, sizeof(t_env));
 		handle_file("a.aout", &env);
-	}
 	while (++i < ac)
 	{
-		ft_bzero(&env, sizeof(t_env));
+		env.exec_type = NM;
 		handle_file(av[i], &env);
+		ft_bzero(&env, sizeof(t_env));
 	}
 	return (0);
 }

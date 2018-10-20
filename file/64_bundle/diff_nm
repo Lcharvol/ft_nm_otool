@@ -1,7 +1,0 @@
---- file/64_bundle/nm	2018-10-19 18:49:46.000000000 +0200
-+++ file/64_bundle/ft_nm	2018-10-19 18:49:46.000000000 +0200
-@@ -176,3 +176,4 @@
-                  U _xmlReadIO
-                  U _xmlReaderForIO
-                  U dyld_stub_binder
-+0000000005614542 u radr://5614542
